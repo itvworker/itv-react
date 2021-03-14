@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="60px" height="60px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>保存海报</title>
+    <g id="在线课程" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="1-3课程详情-点击分享" transform="translate(-98.000000, -505.000000)" fill-rule="nonzero">
+            <g id="操作面板/图标+文字/单行" transform="translate(0.000000, 487.000000)">
+                <g id="保存海报" transform="translate(98.000000, 18.000000)">
+                    <rect id="Rectangle" fill="#F5F5F5" x="0" y="0" width="60" height="60" rx="14"></rect>
+                    <g id="下载" transform="translate(13.000000, 13.000000)">
+                        <rect id="矩形" fill="#000000" opacity="0" x="0" y="0" width="34" height="34"></rect>
+                        <path d="M29.1353822,12.6659325 L22.2008878,12.6659325 L22.2008878,2.26415689 L11.7991122,2.26415689 L11.7991122,12.6659325 L4.8645838,12.6659325 L16.999966,24.8013147 L29.1353822,12.6659325 Z M4.8645838,28.2685619 L4.8645838,31.7358091 L29.1353822,31.7358091 L29.1353822,28.2685619 L4.8645838,28.2685619 Z" id="形状" fill="#F3B700"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,113 @@
+// ---- color ----
+@itv-primary-color: rgb(58, 165, 255);
+@itv-normal-color: #848484 ;
+@itv-link-color: @itv-primary-color ;
+@itv-link-hover-color: mix(@itv-link-color, #000, 80%) ;
+@itv-title-color: #2D2D2D ;
+@itv-text-color: #848484 ;
+@itv-light-color: #F6F6F6 ;
+@itv-dark-color: #DADADA ;
+@itv-color-text-base: #333;
+@itv-color-text-sub: #666;
+@itv-color-text-gray: #999;
+@itv-color-text-light: #ccc;
+@itv-primary-color-bg:rgba(58, 165, 255, 0.1);
+
+// ---- base ----
+@itv-body-background: #F6F6F6 ;
+@itv-mask-bg: rgba(0, 0, 0, 0.5) ;
+@itv-font-family: PingHei,
+"Lucida Grande",
+"Lucida Sans Unicode",
+STHeiti,
+Helvetica,
+Arial,
+Verdana,
+"sans-serif",
+"PingHei-light",
+SimHei,
+"Droid Sans" ;
+@itv-font-size-base: 14ipx ;
+@itv-font-size-small: 12ipx ;
+@itv-font-size-large: 16ipx ;
+@itv-line-height-base: 1.5 ;
+@itv-border-radius-base: 8ipx ;
+@itv-border-radius-small: 3ipx;
+@itv-border-radius-large: 50ipx ;
+// ---- Animation ----
+@itv-animation-duration: .25s ;
+@itv-transition-duration: .2s ;
+@itv-transition-duration-fast: .2s ;
+@itv-transition-duration-slow: .4s ;
+@itv-animation-timing-fun: cubic-bezier(0.55, 0.085, 0.68, 0.53) ;
+@itv-ease-in-out: cubic-bezier(0.445, 0.05, 0.55, 0.95);
+@itv-ease-out: cubic-bezier(0.895, 0.03, 0.685, 0.22);
+// ---- Border color ----
+@itv-border-color-base: @itv-dark-color ;
+@itv-border-color-dark: #ABABAB ;
+@itv-border-width-base: 1px ;
+@itv-border-style-base: solid ;
+@itv-border-color-active: @itv-primary-color ;
+@itv-border-color-white:#fff;
+// ---- Disabled ----
+@itv-disabled-color: #F6F6F6 ;
+@itv-disabled-bg: #DADADA ;
+@itv-disabled-primary-bg: #eb8a7e ;
+
+//---- background color ----
+@itv-bg-color-primary: #efefef;
+@itv-bg-color-light: #fff;
+@itv-bg-color-gray: #dadada;
+// ---- Shadow ----
+@itv-shadow-color: rgba(0, 0, 0, .15) ;
+@itv-shadow-up: 0 -2px 8px @itv-shadow-color ;
+@itv-shadow-down: 0 2px 8px @itv-shadow-color ;
+@itv-shadow-left: -2px 0 8px @itv-shadow-color ;
+@itv-shadow-right: 2px 0 8px @itv-shadow-color ;
+@itv-shadow-base: @itv-shadow-down ;
+// ---- Buttons ----
+@itv-btn-font-weight: normal ;
+@itv-btn-border-radius-base: 8ipx ;
+@itv-btn-border-radius-small: 3ipx ;
+@itv-btn-border-radius-large: 50ipx ;
+@itv-btn-height-small: 30ipx ;
+@itv-btn-height-big: 40ipx ;
+@itv-btn-icon-height-small: 12ipx ;
+@itv-btn-icon-height-big: 16ipx ;
+@itv-btn-menu-icon-height: 20ipx ;
+@itv-btn-menu-height: 50ipx ;
+@itv-btn-primary-color: #FFF ;
+@itv-btn-primary-bg: @itv-primary-color ;
+@itv-btn-gradient-color: #FFF ;
+@itv-btn-gradient-start-color: #ff4f18;
+@itv-btn-gradient-end-color: #f20000;
+@itv-btn-gradient-bg: linear-gradient(315deg, @itv-btn-gradient-start-color 0%, @itv-btn-gradient-end-color 100%) ;
+@itv-btn-gradient-active-bg: linear-gradient(315deg, darken(@itv-btn-gradient-start-color, 10%) 0%, darken(@itv-btn-gradient-end-color, 10%) 100%) ;
+@itv-btn-default-color: @itv-normal-color ;
+@itv-btn-default-bg: #FFF ;
+@itv-btn-default-border: @itv-border-color-dark ;
+@itv-btn-active-color: #FFF ;
+@itv-btn-active-bg: @itv-primary-color ;
+@itv-btn-active-border: @itv-primary-color ;
+@itv-btn-disable-color: @itv-disabled-color ;
+@itv-btn-disable-bg: @itv-disabled-bg ;
+@itv-btn-disable-border: @itv-disabled-color ;
+@itv-btn-icon-margin: 5px;
+@itv-btn-label-light-bg: rgba(240, 37, 15, .05);
+// ---- z-index ----
+@itv-zindex-mask: 9998 ;
+@itv-zindex-actionsheet: 10001 ;
+@itv-zindex-dialog: 10000 ;
+@itv-zindex-picker: 10050 ;
+// ---- Assets path ----
+@assetsPath:'../../assets' ;
+// ---- Stepper ----
+@itv-stepper-color: #333 ;
+@itv-stepperbar-width: 11px ;
+@itv-stepperbar-color: #333 ;
+
+.itv-cell-border {
+    background-image: linear-gradient(rgba(@itv-dark-color, .5), rgba(@itv-dark-color, .5));
+    background-size: 100% 1px;
+    background-repeat: no-repeat;
+}

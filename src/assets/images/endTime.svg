@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>Oval 8</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="1-3任务详情" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-15.000000, -112.000000)">
+        <g id="Group-7-Copy" transform="translate(15.000000, 112.000000)" fill="#C1C1C1" fill-rule="nonzero">
+            <path d="M8,15.5 C3.85786438,15.5 0.5,12.1421356 0.5,8 C0.5,3.85786438 3.85786438,0.5 8,0.5 C12.1421356,0.5 15.5,3.85786438 15.5,8 C15.5,12.1421356 12.1421356,15.5 8,15.5 Z M8,14.5 C11.5898509,14.5 14.5,11.5898509 14.5,8 C14.5,4.41014913 11.5898509,1.5 8,1.5 C4.41014913,1.5 1.5,4.41014913 1.5,8 C1.5,11.5898509 4.41014913,14.5 8,14.5 Z M7.625,8.375 L10.625,8.375 C10.9011424,8.375 11.125,8.59885763 11.125,8.875 C11.125,9.15114237 10.9011424,9.375 10.625,9.375 L6.625,9.375 L6.625,4.5 C6.625,4.22385763 6.84885763,4 7.125,4 C7.40114237,4 7.625,4.22385763 7.625,4.5 L7.625,8.375 Z" id="Oval-8"></path>
+        </g>
+    </g>
+</svg>

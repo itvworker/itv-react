@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>Combined Shape</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="1-28我的收藏" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-149.000000, -147.000000)">
+        <g id="Group-2" transform="translate(148.000000, 129.000000)" fill="#4FCE74">
+            <g id="Group" transform="translate(0.000000, 17.000000)">
+                <path d="M8,1 L8,1 C11.8659932,1 15,4.13400675 15,8 L15,8 C15,11.8659932 11.8659932,15 8,15 L8,15 C4.13400675,15 1,11.8659932 1,8 L1,8 C1,4.13400675 4.13400675,1 8,1 Z M11.380559,5.64705933 C11.5754828,5.45145937 11.8920648,5.4509112 12.0876648,5.64583495 C12.2832647,5.8407587 12.2838129,6.15734071 12.0888891,6.35294067 L6.93410724,11.5256049 L3.64909815,8.28932279 C3.4523825,8.09552505 3.45001707,7.7789514 3.64381481,7.58223575 C3.83761255,7.3855201 4.1541862,7.38315467 4.35090185,7.57695241 L6.92761809,10.1154479 L11.380559,5.64705933 Z" id="Combined-Shape"></path>
+            </g>
+        </g>
+    </g>
+</svg>

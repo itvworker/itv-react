@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>Combined Shape</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="1-1-首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-13.000000, -376.000000)">
+        <g id="Group-16" transform="translate(12.000000, 375.000000)" fill="#4E94FF">
+            <path d="M2,1 L15,1 C15.5522847,1 16,1.44771525 16,2 L16,15 C16,15.5522847 15.5522847,16 15,16 L2,16 C1.44771525,16 1,15.5522847 1,15 L1,2 C1,1.44771525 1.44771525,1 2,1 Z M8.5,10.25 L6.44275162,11.3315595 L6.8356511,9.04077974 L5.17130219,7.41844052 L7.47137581,7.08422026 L8.5,5 L9.52862419,7.08422026 L11.8286978,7.41844052 L10.1643489,9.04077974 L10.5572484,11.3315595 L8.5,10.25 Z" id="Combined-Shape"></path>
+        </g>
+    </g>
+</svg>

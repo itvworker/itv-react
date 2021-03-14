@@ -45,6 +45,9 @@ const reactRefreshOverlayEntry = require.resolve(
 // makes for a smoother build process.
 const shouldInlineRuntimeChunk = process.env.INLINE_RUNTIME_CHUNK !== 'false';
 
+const emitErrorsAsWarnings = process.env.ESLINT_NO_DEV_ERRORS === 'true';
+const disableESLintPlugin = process.env.DISABLE_ESLINT_PLUGIN === 'true';
+
 const imageInlineSizeLimit = parseInt(
   process.env.IMAGE_INLINE_SIZE_LIMIT || '10000'
 );
@@ -295,7 +298,7 @@ module.exports = function (webpackEnv) {
       // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
       splitChunks: {
         chunks: 'all',
-        name: false,
+        name: isEnvDevelopment,
       },
       // Keep the runtime chunk separated to enable long term caching
       // https://twitter.com/wSokra/status/969679223278505985
@@ -318,9 +321,7 @@ module.exports = function (webpackEnv) {
       // https://github.com/facebook/create-react-app/issues/290
       // `web` extension prefixes have been added for better support
       // for React Native Web.
-      extensions: paths.moduleFileExtensions
-        .map(ext => `.${ext}`)
-        .filter(ext => useTypeScript || !ext.includes('ts')),
+      extensions: ['.js', '.json', '.tsx', 'ts'],
       alias: {
         // Support React Native Web
         // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
@@ -331,6 +332,8 @@ module.exports = function (webpackEnv) {
           'scheduler/tracing': 'scheduler/tracing-profiling',
         }),
         ...(modules.webpackAliases || {}),
+        '@': paths.appSrc,
+        
       },
       plugins: [
         // Adds support for installing with Plug'n'Play, leading to faster installs and adding
@@ -457,80 +460,50 @@ module.exports = function (webpackEnv) {
                 inputSourceMap: shouldUseSourceMap,
               },
             },
-            // "postcss" loader applies autoprefixer to our CSS.
-            // "css" loader resolves paths in CSS and adds assets as dependencies.
-            // "style" loader turns CSS into JS modules that inject <style> tags.
-            // In production, we use MiniCSSExtractPlugin to extract that CSS
-            // to a file, but in development "style" loader enables hot editing
-            // of CSS.
-            // By default we support CSS Modules with the extension .module.css
             {
-              test: cssRegex,
-              exclude: cssModuleRegex,
-              use: getStyleLoaders({
-                importLoaders: 1,
-                sourceMap: isEnvProduction
-                  ? shouldUseSourceMap
-                  : isEnvDevelopment,
-              }),
-              // Don't consider CSS imports dead code even if the
-              // containing package claims to have no side effects.
-              // Remove this when webpack adds a warning or an error for this.
-              // See https://github.com/webpack/webpack/issues/6571
-              sideEffects: true,
-            },
-            // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
-            // using the extension .module.css
-            {
-              test: cssModuleRegex,
-              use: getStyleLoaders({
-                importLoaders: 1,
-                sourceMap: isEnvProduction
-                  ? shouldUseSourceMap
-                  : isEnvDevelopment,
-                modules: {
-                  getLocalIdent: getCSSModuleLocalIdent,
-                },
-              }),
-            },
-            // Opt-in support for SASS (using .scss or .sass extensions).
-            // By default we support SASS Modules with the
-            // extensions .module.scss or .module.sass
-            {
-              test: sassRegex,
-              exclude: sassModuleRegex,
-              use: getStyleLoaders(
-                {
-                  importLoaders: 3,
-                  sourceMap: isEnvProduction
-                    ? shouldUseSourceMap
-                    : isEnvDevelopment,
-                },
-                'sass-loader'
-              ),
-              // Don't consider CSS imports dead code even if the
-              // containing package claims to have no side effects.
-              // Remove this when webpack adds a warning or an error for this.
-              // See https://github.com/webpack/webpack/issues/6571
-              sideEffects: true,
-            },
-            // Adds support for CSS Modules, but using SASS
-            // using the extension .module.scss or .module.sass
-            {
-              test: sassModuleRegex,
-              use: getStyleLoaders(
-                {
-                  importLoaders: 3,
-                  sourceMap: isEnvProduction
-                    ? shouldUseSourceMap
-                    : isEnvDevelopment,
-                  modules: {
-                    getLocalIdent: getCSSModuleLocalIdent,
+              test: /\.(less|css)$/,
+              use: [
+                
+                  isEnvDevelopment? {
+                    loader: 'style-loader',
+                  }:{
+                      loader: MiniCssExtractPlugin.loader,
+                      options: {
+                          publicPath: '../../',
+                      }
+                    },
+                  // isEnvProduction && {
+                  //   loader: MiniCssExtractPlugin.loader,
+                  //   options: {
+                  //       publicPath: '../../',
+                  //   }
+                  // },
+                  {
+                      loader: 'css-loader',
                   },
-                },
-                'sass-loader'
-              ),
-            },
+                  
+                  {
+                      loader: 'postcss-loader',
+                  },
+                  {
+                      loader: 'less-loader',
+                      options: {
+                          importLoaders: 5,
+                          javascriptEnabled: true,
+                      },
+                  },
+                  {
+                      loader: 'sass-resources-loader',
+                      options: {
+                          resources: [ paths.appSrc+'/assets/css/itv-theme.less'],
+                      },
+                  },
+              ],
+          },
+        
+            // extensions .module.scss or .module.sass
+          
+          
             // "file" loader makes sure those assets get served by WebpackDevServer.
             // When you `import` an asset, you get its (virtual) filename.
             // In production, they would get copied to the `build` folder.
@@ -709,25 +682,31 @@ module.exports = function (webpackEnv) {
           // The formatter is invoked directly in WebpackDevServerUtils during development
           formatter: isEnvProduction ? typescriptFormatter : undefined,
         }),
-      new ESLintPlugin({
-        // Plugin options
-        extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
-        formatter: require.resolve('react-dev-utils/eslintFormatter'),
-        eslintPath: require.resolve('eslint'),
-        context: paths.appSrc,
-        cache: true,
-        // ESLint class options
-        cwd: paths.appPath,
-        resolvePluginsRelativeTo: __dirname,
-        baseConfig: {
-          extends: [require.resolve('eslint-config-react-app/base')],
-          rules: {
-            ...(!hasJsxRuntime && {
-              'react/react-in-jsx-scope': 'error',
-            }),
+      !disableESLintPlugin &&
+        new ESLintPlugin({
+          // Plugin options
+          extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
+          formatter: require.resolve('react-dev-utils/eslintFormatter'),
+          eslintPath: require.resolve('eslint'),
+          failOnError: !(isEnvDevelopment && emitErrorsAsWarnings),
+          context: paths.appSrc,
+          cache: true,
+          cacheLocation: path.resolve(
+            paths.appNodeModules,
+            '.cache/.eslintcache'
+          ),
+          // ESLint class options
+          cwd: paths.appPath,
+          resolvePluginsRelativeTo: __dirname,
+          baseConfig: {
+            extends: [require.resolve('eslint-config-react-app/base')],
+            rules: {
+              ...(!hasJsxRuntime && {
+                'react/react-in-jsx-scope': 'error',
+              }),
+            },
           },
-        },
-      }),
+        }),
     ].filter(Boolean),
     // Some libraries import Node modules but don't use them in the browser.
     // Tell webpack to provide empty mocks for them so importing them works.

@@ -1,0 +1,668 @@
+//考试页面
+.exam-paper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    display: -webkit-flex;
+
+    -webkit-flex-direction: column;
+}
+.exam-paper-body {
+    * {
+        word-wrap: break-word;
+        word-break: break-all;
+    }
+    flex: 1;
+    padding: 0 @fs10;
+    overflow-y: auto;
+
+    -webkit-flex: 1;
+    -webkit-overflow-scrolling: touch;
+}
+.exam-paper-bottom {
+    display: flex;
+    bottom: 0;
+    height: 50pt;
+    width: 100%;
+    background: #fff;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #f1f1f1;
+    line-height: 50pt;
+    .pre-exam {
+        .icon-pre-exam {
+            padding-right: 8pt;
+            color: @colorIcon;
+            font-size: @fs13;
+        }
+    }
+    .answer-card {
+        .icon-exam-card {
+            padding-right: 8pt;
+            font-size: @fs18;
+            color: @colorIcon;
+            line-height: 0;
+        }
+    }
+    .next-exam {
+        .disabe {
+            color: @colorIcon;
+        }
+        .icon-next-exam {
+            font-size: @fs13;
+            padding-left: 8pt;
+            color: @colorIcon;
+        }
+    }
+    .bottom {
+        height: 50pt;
+        line-height: 50pt;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        line-height: 16pt;
+        justify-content: center;
+        padding: 0 5pt;
+        flex: 1;
+        span {
+            font-family: PingFangSC-Regular, Arial, Helvetica, sans-serif;
+            font-size: @fs14;
+            color: #333333;
+        }
+        .disable {
+            color: #898989;
+        }
+        img {
+            width: @fs16;
+        }
+    }
+    .answer-card {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-left: 1px solid #f1f1f1;
+        border-right: 1px solid #f1f1f1;
+    }
+}
+.btn-exam-submit {
+    display: block;
+    width: 100%;
+    height: 100%;
+    font-size: @fs16;
+    padding-right: @fs10;
+}
+
+.exam-type-bar {
+    height: 40pt;
+    padding-top: 3pt;
+    padding-left: 15pt;
+    padding-right: 15pt;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: PingFangSC-Regular, Arial, Helvetica, sans-serif;
+
+    display: -webkit-flex;
+
+    flex-direction: row;
+
+    .exam-type-text {
+        font-size: @fs16;
+        color: #666666;
+        letter-spacing: 0;
+    }
+    .exam-tip {
+        display: flex;
+        align-items: center;
+        img {
+            // height: @fs14;
+            margin-right: 5px;
+        }
+        .exam-time {
+            font-size: @fs14;
+            color: @mainColor;
+        }
+    }
+}
+
+.exam-answer-tip {
+    display: flex;
+    min-height: 50pt;
+    margin: 0 5pt;
+    align-items: flex-start;
+    border-bottom: 1px solid #e1e1e1;
+    padding: 18pt 0;
+    .icon {
+        padding-right: 5pt;
+    }
+    .icon-wrong {
+        color: @colorRed;
+        font-size: 20pt /* 20/37.5 */;
+    }
+    .icon-right {
+        color: @colorGreen;
+        font-size: 18pt /* 18/37.5 */;
+    }
+    img {
+        height: @fs18;
+        margin-right: @fs10;
+        margin-top: 2pt;
+    }
+    span {
+        font-family: PingFangSC-Medium, Arial, Helvetica, sans-serif;
+        font-size: @fs14;
+        color: #333333;
+        letter-spacing: 0;
+    }
+}
+.exam-answer-text {
+    margin: 15pt 5pt;
+    font-family: PingFangSC-Regular, Arial, Helvetica, sans-serif;
+    font-size: @fs14;
+    color: #333333;
+    line-height: @fs20;
+    letter-spacing: 0;
+}
+
+//考试结果页
+
+.result-false {
+    border: 1px solid #f85d5a;
+    color: #f85d5a;
+}
+.result-true {
+    border: 1px solid #4fce74;
+    color: #4fce74;
+}
+.exam-result-scroll {
+    background-color: #ffffff;
+}
+.exam-result {
+    .exam-result-content {
+        height: 2 @fs16;
+        background-image: linear-gradient(-90deg, @mainColor 0%, @mainColor 66%, @mainColor 100%);
+        .exam-score {
+            height: 131pt;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: PingFangSC-Regular, Arial, Helvetica, sans-serif;
+            color: #ffffff;
+            letter-spacing: 0;
+            .score-100 {
+                img {
+                    height: 92px;
+                }
+            }
+            .score {
+                .sore-num {
+                    font-size: 64px;
+                }
+                .sore-fen {
+                    font-size: @fs14;
+                }
+            }
+            .sore-tip {
+                font-size: @fs14;
+            }
+        }
+        .exam-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 85pt; // padding: 0 5%;
+            background-color: rgba(255, 255, 255, 0.15);
+            span {
+                height: 30px;
+                line-height: 30px;
+                font-family: PingFangSC-Medium, Arial, Helvetica, sans-serif;
+            }
+            .exam-bar-rank {
+                flex: 1;
+                overflow: hidden;
+            }
+            .exam-bar-score {
+                flex: 1;
+            }
+            .exam-bar-status {
+                flex: 1;
+            }
+            .flex {
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+            }
+            .title {
+                font-size: @fs14;
+                color: rgba(255, 255, 255, 0.86);
+                letter-spacing: 0.08px;
+            }
+            .content {
+                font-size: @fs17;
+                color: #ffffff;
+                letter-spacing: 0;
+                word-wrap: break-word;
+                word-break: break-all;
+            }
+
+            .name-content {
+                text-align: center;
+            }
+            .flex-column {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                .line {
+                    height: 36px;
+                    width: 1px;
+                    opacity: 0.5;
+                    background: #ffffff;
+                }
+            }
+        }
+    }
+    .exam-result-body {
+        padding: @fs16;
+        .result-intro {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .intro-tip {
+                font-family: PingFangSC-Regular, Arial, Helvetica, sans-serif;
+                font-size: @fs14;
+                color: #333333;
+                letter-spacing: 0;
+            }
+            .tip {
+                display: flex;
+                align-items: center;
+                span {
+                    font-family: PingFangSC-Regular, Arial, Helvetica, sans-serif;
+                    font-size: @fs12;
+                    color: #898989;
+                }
+                .tip-circle {
+                    display: inline-block;
+                    height: @fs12;
+                    width: @fs12;
+                    margin: 0 5px 0 @fs10;
+                    border-radius: @fs13;
+                    border: 1px solid;
+                    flex: 0 0 auto;
+                }
+                .true {
+                    border-color: #4fce74;
+                }
+                .false {
+                    border-color: #f85d5a;
+                }
+            }
+        }
+        .result-card {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: @fs16;
+            .card-circle {
+                display: inline-block;
+                height: 24pt;
+                width: 24pt;
+                margin: 0 5px @fs10 5px;
+                text-align: center;
+                border-radius: 24pt;
+                line-height: 21pt;
+
+                span {
+                    display: inline-block;
+                    height: @fs22;
+                    line-height: @fs22;
+                }
+            }
+        }
+        .exam-introdce-content {
+            padding: 7px 0;
+            display: flex;
+            align-items: flex-start;
+            flex-flow: row nowrap;
+            .title {
+                width: 64pt /* 64/37.5 */;
+                margin: 0 18pt 0 8pt /* 8/37.5 */;
+                text-align: right;
+                font-family: PingFangSC-Regular, Arial, Helvetica, sans-serif;
+                font-size: @fs14;
+                line-height: @fs18;
+                color: #898989;
+                letter-spacing: 0;
+                flex: 0 0 auto;
+            }
+            .content {
+                font-family: PingFangSC-Regular, Arial, Helvetica, sans-serif;
+                font-size: @fs14;
+                color: #333333;
+                letter-spacing: 0;
+                flex: 1 1 auto;
+                word-wrap: break-word;
+                word-break: break-all;
+                line-height: @fs18;
+            }
+        }
+    }
+    .btn {
+        height: 42px;
+        line-height: 42pt;
+        width: 354.75pt;
+        bottom: 30px;
+        margin: auto;
+        background: @mainColor;
+        border-radius: 4pt;
+        font-family: PingFangSC-Regular, Arial, Helvetica, sans-serif;
+        font-size: @fs18;
+        color: #ffffff;
+        letter-spacing: 0;
+        text-align: center;
+        &.disable {
+            background-color: @colorIcon*1.3;
+        }
+    }
+}
+
+//考试题
+.exam-card {
+    width: 100%;
+    background: #ffffff;
+    border-radius: 4pt;
+    font-family: PingFangSC-Regular, Arial, Helvetica, sans-serif;
+    padding: 16pt;
+    min-height: 150pt;
+    .card-sign {
+        position: relative;
+        height: 20pt;
+
+        margin-bottom: 10pt;
+        border-radius: 24pt;
+        padding-left: 10pt;
+        padding-right: 10pt;
+        align-items: center;
+        display: flex;
+        border: @lineColor solid 1px;
+        justify-content: center;
+        float: left;
+        &.active {
+            color: @yellow;
+            border: @yellow solid 1px;
+        }
+        img {
+            // margin-top: 2pt;
+            height: 13pt;
+            width: 8pt;
+            margin-right: 2pt;
+            margin-left: -2pt;
+        }
+        .card-sign-text {
+            // font-size: @fs14;
+            letter-spacing: 0;
+            color: #898989;
+        }
+    }
+    .card-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 12pt;
+        padding-top: 10pt;
+        clear: both;
+
+        .card-title-text {
+            font-size: @fs15;
+            color: #333333;
+            letter-spacing: 0;
+            flex: 1;
+        }
+    }
+    .ask-exam-box {
+        .ask-textarea {
+            resize: none;
+            width: 100%;
+            min-height: 100pt;
+            height: auto;
+            font-size: @fs14;
+            padding: 8pt;
+            border: @lineColor solid 1pt;
+            box-sizing: border-box;
+        }
+    }
+    .quesion-list {
+        display: flex;
+        flex-direction: column;
+
+        .text-write {
+            display: flex;
+            margin-bottom: 12pt;
+            align-items: center;
+            .option-name {
+                min-width: 50pt;
+                font-size: @fs15;
+                &.english {
+                    min-width: 70pt;
+                }
+            }
+            .exam-text-item {
+                flex: 1px;
+                .exam-write {
+                    border: #ddd solid 1px;
+                    width: 100%;
+                    line-height: 24pt;
+                    box-sizing: border-box;
+                    padding: 0 10px;
+                    font-size: @fs15;
+                }
+            }
+        }
+        .radio-label {
+            display: flex;
+            align-items: flex-start;
+            color: #333333;
+            padding: 8pt 0;
+            position: relative;
+            input[type='radio'],
+            input[type='checkbox'] {
+                display: none;
+                position: absolute;
+                z-index: -1;
+            }
+            .radio-content {
+                height: 18pt;
+                width: 18pt;
+                position: relative;
+                margin-right: @fs10;
+                border: 1px solid #c1c1c1;
+                border-radius: 100%;
+                overflow: hidden;
+                text-align: center;
+                line-height: 0;
+                color: #898989;
+                font-size: @fs10;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex: 0 0 auto;
+            }
+
+            // input[type=radio]:checked + .icon-selected{
+            //     &::before{
+            //         content: '';
+            //         background: @mainColor;
+            //         width: 8pt /* 8/37.5 */ ;
+            //         height: 8pt /* 8/37.5 */ ;
+            //         border-radius: 50%;
+            //         position: absolute;
+            //         left: 50%;
+            //         top: 50%;
+            //         transform: translate(-50%,-50%);
+            //     }
+            //     span{
+            //         display: none;
+            //     }
+            // }
+            input:checked + .radio-content {
+                border-color: @mainColor;
+                background: @mainColor;
+                color: #ffffff;
+            }
+            .option-name {
+                flex: 1;
+                font-size: @fs14;
+                line-height: @fs18;
+            }
+            &.fitful-label {
+                input[type='checkbox']:checked + .radio-content {
+                    border: none;
+                    background: #fff;
+                    color: #ffffff;
+                    position: relative;
+                    border-radius: 0;
+                    height: 18pt;
+                    width: 18pt;
+                    border: @activeColor solid 0.5px;
+                    overflow: hidden;
+                    background-color: @activeColor;
+                    span {
+                        display: none;
+                    }
+                    &::before {
+                        // color: @activeColor;
+                        color: #fff;
+                        content: '\e83b';
+                        font-size: @fs15;
+                    }
+                }
+
+                input[type='checkbox'] + .radio-content {
+                    border-radius: 0;
+                    height: 18pt;
+                    width: 18pt;
+                }
+            }
+        }
+    }
+}
+::-webkit-scrollbar {
+    display: none;
+}
+
+.header-bar-top {
+    display: flex;
+    
+    // box-sizing: border-box;
+    // border-bottom: 1px solid #E9E9E9;
+    padding-right: @fs16;
+    padding-left: @fs16;
+    background-color: #fff;
+    padding-top: 44pt;
+    height: 88pt;
+    overflow: hidden;
+    position: relative;
+    .search-page-title{
+        width: 100%;
+        position: absolute;
+        height: 44pt;
+        display: flex;
+        left: 0;
+        top: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-family: PingFangSC-Regular,Arial,Helvetica,sans-serif;
+  
+        font-size: .48rem;
+        color: #333;
+        letter-spacing: .21px;
+     
+    
+        font-weight: 700;
+        overflow: hidden;
+  
+    }
+    .go-back {
+        padding: 0 13pt 0 12pt;
+        color: #999;
+        font-size: 17pt;
+        height: 44pt;
+        display: flex;
+        align-items: center;
+        line-height: 0;
+        position: absolute;
+        top: 0px;
+        left: 0;
+        z-index: 1;
+    }
+    .btn-classify {
+        display: flex;
+        height: 100%;
+        padding-left: 10pt /* 10/37.5 */;
+        line-height: 0;
+        align-items: center;
+        font-size: @fs15;
+        color: #333333;
+    }
+    .search-box {
+        display: flex;
+        flex: 1;
+        height: 30pt;
+        background-color: #f6f6f6;
+        border-radius: 15pt;
+        z-index: 10;
+        position: relative;
+        margin-top: 7pt;
+        .search-icon {
+            width: 16.6pt;
+            height: 16.6pt;
+            margin: 6.7pt 3pt 6.7pt 16pt;
+            color: @colorIcon;
+            position: absolute;
+        }
+        .search {
+            height: 30pt;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 0 8pt 0 37.5pt;
+            box-sizing: border-box;
+            background-color: #f6f6f6;
+            border-radius: 15pt;
+            border: none;
+            outline: none;
+            font-size: @fs14;
+        }
+    }
+}
+
+.vc-toggle{
+    .dev-change-btn, .dev-restart{
+        display: block;
+    }
+}
+.dev-change-btn{
+    position: absolute;
+    background-color: @mainColor;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    color: #fff;
+    z-index: 10002;
+    padding: 10pt;
+    border-radius: 30pt;
+    display: none;
+}
+
+.dev-restart {
+    position: absolute;
+    background-color: @mainColor;
+    top: 0;
+    right: 0;
+    z-index: 100;
+    color: #fff;
+    z-index: 10002;
+    padding: 10pt;
+    border-radius: 30pt;
+    display: none;
+}
