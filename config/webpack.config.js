@@ -492,12 +492,12 @@ module.exports = function (webpackEnv) {
                           javascriptEnabled: true,
                       },
                   },
-                  {
-                      loader: 'sass-resources-loader',
-                      options: {
-                          resources: [ paths.appSrc+'/assets/css/itv-theme.less'],
-                      },
-                  },
+                  // {
+                  //     loader: 'sass-resources-loader',
+                  //     options: {
+                  //         resources: [ paths.appSrc+'/assets/css/itv-theme.less'],
+                  //     },
+                  // },
               ],
           },
         

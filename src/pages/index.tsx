@@ -15,8 +15,14 @@ class IndexPage extends React.Component{
        
         
         return (<div className = "page-index" >
-                <Cell ref={this.cellFef} >
-                    <span>pageHome</span>
+                <Cell desc="详细信息" title="这是一个标题" subTitle="这里要填写你的手机号码" >
+                    
+                </Cell>
+                <Cell desc="详细信息" title="这是一个标题" subTitle="这里要填写你的手机号码" >
+                    
+                </Cell>
+                <Cell desc="详细信息" title="这是一个标题" subTitle="这里要填写你的手机号码" >
+                    
                 </Cell>
                    
                 </div>)

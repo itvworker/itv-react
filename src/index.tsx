@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.less';
 import App from './App.tsx';
 import reportWebVitals from './reportWebVitals';
+import 'lib-flexible'
 
 ReactDOM.render(
   <React.StrictMode>

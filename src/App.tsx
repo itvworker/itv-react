@@ -6,6 +6,7 @@ const Home = lazy(() => import('./pages/index'));
 
 function App() {
   return (
+    
     <Router>
         <Suspense fallback={<div>Loading...</div>}>
           <Switch>
