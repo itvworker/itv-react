@@ -1,31 +1,58 @@
 
 import './index.less';
 import React from 'react';
-import Cell from '../components/cell'
+import Container from '../layout/container'
 
 class IndexPage extends React.Component{
     cellFef = React.createRef();
 
-    // constructor(props: any) {
-    //     super(props);
-    //     this.state = {}
-    // }
+    constructor(props: any) {
+        super(props);
+        this.state = {
+            navs:[
+                {
+                    name: "介绍",
+                    routerName: ''
+                },
+                {
+                    name: "组件",
+                    routerName: 'itv_doc_index'
+                },
+                {
+                    name: "主题",
+                    routerName: ''
+                },
+                {
+                    name: "发布日志",
+                    routerName: ''
+                },
+                {
+                    name: "捐赠、赞助",
+                    routerName: ''
+                },
+                {
+                    name: "DEMO",
+                    routerName:'itv_demo_enter'
+                }
+            ]
+        }
+    }
     render(){ 
        
        
         
-        return (<div className = "page-index" >
-                <Cell desc="详细信息" title="这是一个标题" subTitle="这里要填写你的手机号码" >
-                    
-                </Cell>
-                <Cell desc="详细信息" title="这是一个标题" subTitle="这里要填写你的手机号码" >
-                    
-                </Cell>
-                <Cell desc="详细信息" title="这是一个标题" subTitle="这里要填写你的手机号码" >
-                    
-                </Cell>
-                   
-                </div>)
+        return (<Container>
+                    <div className="itv-bar">
+                        <div className="itv-logo" >
+                            iTV
+                        </div>
+                        <div className="nav">
+                            <div className="nav-item">
+                                
+                            </div>        
+                        </div>
+                    </div>
+                </Container>)
     }
 
     componentDidMount() {

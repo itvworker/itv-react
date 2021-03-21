@@ -1,0 +1,98 @@
+
+
+.doc-page{
+    font-family: Menlo,Menlo Regular,Consolas,monospace;
+    color: #333;
+    padding: 10px;
+    font-size: 14px;
+    line-height: 180%;
+    padding-bottom: 20px;
+    flex: 1;
+    .phone-show{
+        position: fixed;
+        top: 0px;
+        right: 0px;
+        iframe{
+            width: 375px;
+            height: 667px;
+            background-color: #fff;
+            border:#ddd solid 1px;
+            border-radius: 6px;
+
+        }
+    }
+
+    table{
+        border-spacing: 0;
+        border-collapse: collapse;
+        width: 100%;
+        thead{
+            background-color: #eee;
+            th{
+                border:#ddd solid 1px;
+                padding: 10px;
+            }
+        }
+        td{
+            border:#ddd solid 1px;
+            text-align: center;
+            padding: 10px;
+        }
+    }
+    h1{
+        font-size: 28px;
+        color: @itv-page-main;
+        font-weight: normal;
+    }
+    h2{
+        font-size: 26px;
+        font-weight: 300;
+        color: #666;
+
+
+    }
+    h3 {
+        font-size: 24px;
+        font-weight: 200;
+        border-bottom: #ddd solid 1px;
+        padding-bottom: 10px;
+    }
+    h4{
+        font-size: 20px;
+    }
+    h5 {
+        font-size: 18px;
+    }
+    h6 {
+        font-size: 16px;
+    }
+    .doc-tab{
+        .doc-tab-group{
+            display: flex;
+            border-bottom: #ddd solid 1px;
+            font-weight: bold;
+            .tab-item-btn{
+                font-size: 16px;
+                padding: 10px;
+                cursor: pointer;
+                &.active{
+                    border-bottom:@itv-page-main solid 2px;
+                }
+            }
+        }
+        .doc-tab-content{
+            .doc-tab-item{
+                display: none;
+                &:first-child {
+                    display: block;
+                }
+            }
+
+        }
+    }
+}
+
+
+
+
+//

@@ -124,6 +124,7 @@ checkBrowsers(paths.appPath, isInteractive)
     const devServer = new WebpackDevServer(compiler, serverConfig);
     // Launch WebpackDevServer.
     devServer.listen(port, HOST, err => {
+      console.log(paths.appSrc+'/assets/css/page.less');
       if (err) {
         return console.log(err);
       }

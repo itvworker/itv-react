@@ -156,7 +156,7 @@
     "postcss-u2u": "^1.0.0",
     "postcss-url": "^10.1.1",
     "react-router-dom": "^5.2.0",
-    "sass-resources-loader": "^2.1.1",
+    "sass-resources-loader": "^2.0.1",
     "semver": "^7.3.2",
     "typescript": "^4.2.3"
   }

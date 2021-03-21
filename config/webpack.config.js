@@ -77,6 +77,12 @@ const hasJsxRuntime = (() => {
   }
 })();
 
+function resolvePath(dir) {
+  return path.join(__dirname, '..', dir)
+}
+
+
+
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
 module.exports = function (webpackEnv) {
@@ -472,12 +478,6 @@ module.exports = function (webpackEnv) {
                           publicPath: '../../',
                       }
                     },
-                  // isEnvProduction && {
-                  //   loader: MiniCssExtractPlugin.loader,
-                  //   options: {
-                  //       publicPath: '../../',
-                  //   }
-                  // },
                   {
                       loader: 'css-loader',
                   },
@@ -486,19 +486,20 @@ module.exports = function (webpackEnv) {
                       loader: 'postcss-loader',
                   },
                   {
-                      loader: 'less-loader',
-                      options: {
-                          importLoaders: 5,
-                          javascriptEnabled: true,
-                      },
+                        loader: 'less-loader',
+                        options: {
+                            importLoaders: 5,
+                            javascriptEnabled: true,
+                        },
                   },
-                  // {
-                  //     loader: 'sass-resources-loader',
-                  //     options: {
-                  //         resources: [ paths.appSrc+'/assets/css/itv-theme.less'],
-                  //     },
-                  // },
-              ],
+                  {
+                    loader: 'sass-resources-loader',
+                    options: {
+                        resources: [paths.pageLess]
+                    }
+                }
+
+              ]
           },
         
             // extensions .module.scss or .module.sass

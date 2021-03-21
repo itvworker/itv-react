@@ -1,5 +1,5 @@
 // ---- color ----
-@itv-primary-color: rgb(58, 165, 255);
+@itv-primary-color: #F0250F ;
 @itv-normal-color: #848484 ;
 @itv-link-color: @itv-primary-color ;
 @itv-link-hover-color: mix(@itv-link-color, #000, 80%) ;
@@ -11,7 +11,8 @@
 @itv-color-text-sub: #666;
 @itv-color-text-gray: #999;
 @itv-color-text-light: #ccc;
-@itv-primary-color-bg:rgba(58, 165, 255, 0.1);
+@itv-color-text-white: #fff;
+@itv-primary-color-bg:rgba(240, 37, 15, 0.1);
 
 // ---- base ----
 @itv-body-background: #F6F6F6 ;
@@ -32,7 +33,7 @@ SimHei,
 @itv-font-size-large: 16ipx ;
 @itv-line-height-base: 1.5 ;
 @itv-border-radius-base: 8ipx ;
-@itv-border-radius-small: 3ipx;
+@itv-border-radius-small: 3ipx ;
 @itv-border-radius-large: 50ipx ;
 // ---- Animation ----
 @itv-animation-duration: .25s ;
@@ -59,11 +60,11 @@ SimHei,
 @itv-bg-color-light: #fff;
 @itv-bg-color-gray: #dadada;
 // ---- Shadow ----
-@itv-shadow-color: rgba(0, 0, 0, .15) ;
-@itv-shadow-up: 0 -2px 8px @itv-shadow-color ;
-@itv-shadow-down: 0 2px 8px @itv-shadow-color ;
-@itv-shadow-left: -2px 0 8px @itv-shadow-color ;
-@itv-shadow-right: 2px 0 8px @itv-shadow-color ;
+@itv-shadow-color: rgba(0, 0, 0, .05) ;
+@itv-shadow-up: 0 -2ipx 8ipx @itv-shadow-color ;
+@itv-shadow-down: 0 2ipx 8ipx @itv-shadow-color ;
+@itv-shadow-left: -2ipx 0 8ipx @itv-shadow-color ;
+@itv-shadow-right: 2ipx 0 8ipx @itv-shadow-color ;
 @itv-shadow-base: @itv-shadow-down ;
 // ---- Buttons ----
 @itv-btn-font-weight: normal ;
@@ -106,8 +107,17 @@ SimHei,
 @itv-stepperbar-width: 11px ;
 @itv-stepperbar-color: #333 ;
 
-.itv-cell-border {
-    background-image: linear-gradient(rgba(@itv-dark-color, .5), rgba(@itv-dark-color, .5));
-    background-size: 100% 1px;
-    background-repeat: no-repeat;
+.itv-ellipsis(@a:hidden) {
+    overflow: @a;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+// 多行省略
+.itv-rows-ellipsis(@a:2) {
+    display: -webkit-box;
+    -webkit-line-clamp: @a;
+    -webkit-box-orient: vertical;
+    box-orient: vertical;
+    overflow: hidden;
 }

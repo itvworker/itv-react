@@ -1,39 +1,79 @@
-@ani-sec: .3s;
-.left-enter-active,
-.left-leave-active {
-    transition: transform @ani-sec;
-    left: 0;
-    top: 0;
-    transform:translateX(0%);
-    position: absolute;
-    width: 100%;
+@itv-sec: 300ms;
+.itv-slide-top-enter-active {
+    animation: itv-slide-top @itv-sec;
+}
+.itv-slide-top-leave-active {
+    animation: itv-slide-top @itv-sec reverse;
+}
+@keyframes itv-slide-top {
+    0% {
+        transform: translate3d(0,100%,0)
+    }
+    100% {
+        transform: translate3d(0,0,0)
+    }
 }
 
-.left-enter {
-    transform:translateX(100%);
+
+.itv-slide-bottom-enter-active {
+    animation: itv-slide-bottom @itv-sec;
 }
-.left-leave-to {
-    transform:translateX(-100%);
+.itv-slide-bottom-leave-active {
+    animation: itv-slide-bottom @itv-sec reverse;
+}
+@keyframes itv-slide-bottom {
+    0% {
+        transform: translate3d(0,-100%,0)
+    }
+    100% {
+        transform: translate3d(0,0,0)
+    }
 }
 
-.right-enter-active,
-.right-leave-active {
-    transition: transform @ani-sec;
-    left: 0;
-    top: 0;
-    transform:translateX(0%);
-    position: absolute;
+.itv-fade-enter-active,
+.itv-fade-leave-active {
+    opacity: 1;
+    transition: opacity linear 0.2s;
 }
-
-.right-enter {
-   
-    transform:translateX(-100%);
-}
-.right-leave-to {
-    transform:translateX(100%);
-}
-
-.none-leave-active{
+.itv-fade-enter,
+.itv-fade-leave-to {
     opacity: 0;
-    display: none;
+}
+.itv-dialog-enter-active {
+    animation: itv-dialog-in 0.5s;
+}
+.itv-dialog-leave-active {
+    animation: itv-dialog-out @itv-sec;
+}
+@keyframes itv-dialog-in {
+    0% {
+        transform-origin: center;
+        transform: translate(-50%, -50%) scale(1.185);
+        opacity: 0;
+    }
+    100% {
+        transform-origin: center;
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+@keyframes itv-dialog-out {
+    0% {
+        transform-origin: center;
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform-origin: center;
+        transform: translate(-50%, -50%) scale(0.85);
+        opacity: 0;
+    }
+}
+.itv-mask-enter,
+.itv-mask-leave-active {
+    opacity: 0;
+}
+.itv-mask-leave-active,
+.itv-mask-enter-active {
+    transition: opacity 300ms;
 }
