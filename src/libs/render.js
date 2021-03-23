@@ -1,10 +1,10 @@
-export default function (content) {
+export default function render(content) {
     var global = window;
 
     var docStyle = document.documentElement.style;
 
     var engine;
-    if (global.opera && Object.prototype.toString.call(opera) === '[object Opera]') {
+    if (global.opera && Object.prototype.toString.call(global.opera) === '[object Opera]') {
         engine = 'presto';
     } else if ('MozAppearance' in docStyle) {
         engine = 'gecko';
@@ -30,6 +30,7 @@ export default function (content) {
     if (helperElem.style[perspectiveProperty] !== undef) {
 
         return function(left, top, zoom) {
+            
             content.style[transformProperty] = 'translate3d(' + (-left) + 'px,' + (-top) + 'px,0) scale(' + zoom + ')';
         };
 

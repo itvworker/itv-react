@@ -3,21 +3,21 @@ export default {
     touchstart(e, self) {
     
         //启用自定义调用事件
-        this.elPositon = this.$el.getBoundingClientRect();
-        if(this.touchType === 'custom' && self) return
+        this.elPositon = this.root.current.getBoundingClientRect();
+        if(this.props.touchType === 'custom' && self) return
         if (e.target.tagName.match(/input|textarea|select/i)) {
             return
         }
-        this.direction = null;
-        this.isTouch = true;
-        this.scrollToX = null;
-        this.scrollToY = null;
+        this.state.direction = null;
+        this.state.isTouch = true;
+        this.state.scrollToX = null;
+        this.state.scrollToY = null;
         let touches = e.touches;
         if(this.tier === 'parent') {
             
-            this.childScroller.touchMoveList = this.touchMoveList;
+            this.state.childScroller.touchMoveList = this.state.touchMoveList;
         }
-        this.touchMoveList.splice(0, this.touchMoveList.length)
+        this.state.touchMoveList.splice(0, this.state.touchMoveList.length)
         //检查手指数量
         if (touches.length == null) {
             throw new Error("Invalid touch list: " + touches);
@@ -28,19 +28,19 @@ export default {
         
         let isSingleTouch = touches.length === 1;
         if (isSingleTouch) {
-            this.moveX = touches[0].pageX;
-            this.moveY = touches[0].pageY;
+            this.state.moveX = touches[0].pageX;
+            this.state.moveY = touches[0].pageY;
         } else {
-            this.moveX = Math.abs(touches[0].pageX + touches[1].pageX) / 2;
-            this.moveY = Math.abs(touches[0].pageY + touches[1].pageY) / 2;
+            this.state.moveX = Math.abs(touches[0].pageX + touches[1].pageX) / 2;
+            this.state.moveY = Math.abs(touches[0].pageY + touches[1].pageY) / 2;
         }
-        this.startX = this.moveX 
-        this.startY = this.moveY
+        this.state.startX = this.moveX 
+        this.state.startY = this.moveY
 
         
-        this.touchMoveList.push({
-            x: this.moveX,
-            y: this.moveY,
+        this.state.touchMoveList.push({
+            x: this.state.moveX,
+            y: this.state.moveY,
             time: new Date().getTime()
         })
 
@@ -50,8 +50,8 @@ export default {
     touchmove(e, self) {
         //启用自定义调用事件
         e.preventDefault();
-        if(this.touchType === 'custom' && self) return
-        if(this.isTouch ===false) return
+        if(this.props.touchType === 'custom' && self) return
+        if(this.state.isTouch ===false) return
         
         let touches = e.touches;
         //检查手指数量
@@ -70,9 +70,9 @@ export default {
             moveY = Math.abs(touches[0].pageY + touches[1].pageY) / 2;
         }
         
-        let upxy = this.touchMoveList[this.touchMoveList.length-1];
-        this.moveX = upxy.x;
-        this.moveY = upxy.y;
+        let upxy = this.state.touchMoveList[this.state.touchMoveList.length-1];
+        this.state.moveX = upxy.x;
+        this.state.moveY = upxy.y;
         let positon = this.elPositon
         if(moveX  < positon.left || moveX  > positon.right ||  moveY < positon.top ||  moveY > positon.bottom) {
             this.touchend(e)
@@ -80,25 +80,25 @@ export default {
         }
 
         //判断滑动方向，并获取滑动距离
-        let res = getDirection(this.moveX, this.moveY, moveX, moveY, this.direction)
+        let res = getDirection(this.state.moveX, this.state.moveY, moveX, moveY, this.state.direction)
         //根据起点终点返回方向 1向上 2向下 3向左 4向右 0未滑动
         if(!res) return
         
         
         if((res.type===1 || res.type === 2) && !this.direction) {
-            this.direction = 'vertical'
-            this.cacheDirection = 'vertical'
+            this.state.direction = 'vertical'
+            this.state.cacheDirection = 'vertical'
         }
         if((res.type===3 || res.type === 4) && !this.direction) {
-            this.direction = 'horizontal'
-            this.cacheDirection = 'horizontal'  
+            this.state.direction = 'horizontal'
+            this.state.cacheDirection = 'horizontal'  
         }
         if(!this.direction) return
 
        
         // this.moveX = moveX;
         // this.moveY = moveY;
-        this.touchMoveList.push({
+        this.state.touchMoveList.push({
             x: moveX,
             y: moveY,
             time: new Date().getTime()
@@ -207,8 +207,8 @@ export default {
         this.isMove = false;
         this.isTouch = false;
         
-        if(this.touchMoveList.length<=0) return
-        this.touchMoveList[this.touchMoveList.length-1].time = new Date().getTime()
+        if(this.state.touchMoveList.length<=0) return
+        this.state.touchMoveList[this.state.touchMoveList.length-1].time = new Date().getTime()
         if(this.direction === 'horizontal') {
             if(this.pattern === 'horizontal') {
                 this.scrollY = 0;

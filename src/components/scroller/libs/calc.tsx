@@ -1,32 +1,7 @@
 
 
 export default {
-    /**
-         * 判断是否竖向滑动
-         */
-    isVertcialMove() {
-        return (this.pattern === 'vertical' || this.pattern === 'auto') && this.direction === 'vertical'
-    },
-
-    /**
-     * 判断是否横向滑动
-     */
-    isHorizontalMove() {
-        return (this.pattern === 'horizontal' || this.pattern === 'auto') && this.direction === 'horizontal'
-    },
-    scrollbarHeight() {
-      return parseInt((this.contentHeight /this.maxY)*100);
-    },
-    scrollbarWidth() {
-        return parseInt((this.contentWidth / this.maxX)*100);
-    },
-    scrollBarOuter() {
-        return this.contentHeight - parseInt(this.scrollbarHeight)/100 * this.contentHeight;
-    },
-    scrollBarOuterWidth() {
-        
-        return this.contentWidth - parseInt(this.scrollbarWidth)/100 * this.contentWidth;
-    },
+    
     /**
          * 计滚动到一定距离的stepX,stepY的开始步数
          * @param {Number} distance 
@@ -52,45 +27,49 @@ export default {
      * 计算滚动的最大值
      */
     calcMax() {
-        let parent = this.$refs.scroller.parentNode;
-        let child = this.$refs.scroller;
+      
+        let parent = this.scroller.current.parentNode;
+        
+        let child = this.scroller.current;
+     
         let parentWidth = parent.clientWidth;
         let parentHeight = parent.clientHeight;
         let childWidth = child.clientWidth;
         let childHeight = child.clientHeight;
 
-        console.log(this.pattern);
-        this.maxX = Math.max(0,childWidth - parentWidth);
-        this.maxY = Math.max(0,childHeight - parentHeight);
-        this.contentHeight = parentHeight;
-        this.contentWidth = parentWidth;
-        this.elPositon = this.$el.getBoundingClientRect()
+        
+        this.state.maxX = Math.max(0,childWidth - parentWidth);
+        this.state.maxY = Math.max(0,childHeight - parentHeight);
+        this.state.contentHeight = parentHeight;
+        this.state.contentWidth = parentWidth;
+      
+        this.state.elPositon = this.root.current.getBoundingClientRect()
         //当滚动值超过最大值时，恢复到最大值
 
-        if(this.scrollX > this.maxX) {
-            this.scrollX =  this.maxX;
-            this.x =  this.maxX
+        if(this.state.scrollX > this.state.maxX) {
+            this.state.scrollX =  this.state.maxX;
+            this.state.x =  this.state.maxX;
         }
         
-        if(this.scrollY > this.maxY) {
-            this.scrollY =  this.maxY;
-            this.y =  this.maxY
+        if(this.state.scrollY > this.state.maxY) {
+            this.state.scrollY =  this.state.maxY;
+            this.y =  this.state.maxY
         }
-        this.scrollRender(this.scrollX , this.scrollY, 1);
+        this.state.scrollRender(this.state.scrollX , this.state.scrollY, 1);
    
         //计算下拉加载触发点
-        if(this.pullDown) {
-           this.pullDownPoint =  -this.$refs.pull.clientHeight
+        if(this.props.pullDown) {
+           this.state.pullDownPoint =  -this.pull.current.clientHeight
         }
         
 
     },
     //计算touch结束后的滑动速度
     calcMoveSpeed() {
-        let touchList = this.touchMoveList;
+        let touchList = this.state.touchMoveList;
 
         
-        // this.touchMoveList = [];
+        // this.state.touchMoveList = [];
         let num = touchList.length
         if(num > 20) {
             touchList = touchList.slice(num-20, num)
@@ -116,20 +95,20 @@ export default {
             y = 0
         }
 
-        if(y>this.maxSpeed) {
-            y = this.maxSpeed
+        if(y>this.props.maxSpeed) {
+            y = this.props.maxSpeed
         }
 
-        if(y <-this.maxSpeed) {
-            y = -this.maxSpeed
+        if(y <-this.props.maxSpeed) {
+            y = -this.props.maxSpeed
         }
 
-        if(x>this.maxSpeed) {
-            x = this.maxSpeed
+        if(x>this.props.maxSpeed) {
+            x = this.props.maxSpeed
         }
 
-        if(x <-this.maxSpeed) {
-            x = -this.maxSpeed
+        if(x <-this.props.maxSpeed) {
+            x = -this.props.maxSpeed
         }
 
 

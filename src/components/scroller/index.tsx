@@ -8,6 +8,7 @@ import animateClass from './libs/animate';
 import calcClass from './libs/calc';
 import touchClass from './libs/touch';
 import initClass from './libs/init'
+import calc from './libs/calc';
 
 export default class Scroller extends React.Component<ScrollerProps, ScrollerState> {
     static defaultProps = {
@@ -111,7 +112,11 @@ export default class Scroller extends React.Component<ScrollerProps, ScrollerSta
         }
     }
     scroller = React.createRef();
-    pull = React.createRef()
+    pull = React.createRef();
+    more = React.createRef();
+    barX = React.createRef();
+    barY = React.createRef();
+    root = React.createRef();
     /**
          * 判断是否竖向滑动
          */
@@ -138,6 +143,12 @@ export default class Scroller extends React.Component<ScrollerProps, ScrollerSta
         
         return this.contentWidth - parseInt(this.scrollbarWidth)/100 * this.contentWidth;
     }
+    componentDidMount(){
+        initClass.mounted.call(this)
+    }
+    calcMax() {
+        calcClass.calcMax.call(this);
+    }
     touchstart(e, value) {
        
         touchClass.touchstart.call(this, e, value);
@@ -145,23 +156,29 @@ export default class Scroller extends React.Component<ScrollerProps, ScrollerSta
     touchmove(e, value) {
         touchClass.touchmove.call(this, e, value);
     }
-    touchend(e) {
+    touchend(e, value) {
         touchClass.touchend.call(this, e, value);
     }
-
-
-
+    calcMoveSpeed(){
+        calcClass.calcMoveSpeed.call(this);
+    }
+    animate(speed, value) {
+        animateClass.animate.call(this, speed, value)
+    }
+    step(time, value){
+        animateClass.step.call(this,time, value)
+    }
 
 
     render() {
         let scrollX = null;
         let scrollY = null;
         if(this.props.showScrollBar) {
-            scrollX = ( <div className={!this.state.hideBarY && this.state.maxY > 2 && (this.state.cacheDirection === 'vertical' || this.props.pattern === 'freedom' )?"scroller-bar":"scroller-bar none" } >
+            scrollX = ( <div ref={this.barX} className={!this.state.hideBarY && this.state.maxY > 2 && (this.state.cacheDirection === 'vertical' || this.props.pattern === 'freedom' )?"scroller-bar":"scroller-bar none" } >
                  <div className="scroll-indoor"  style={{'height':this.scrollbarHeight+'%','transform':`translate3d(0,${this.state.scrollbarY}px,0)`,'WebkitTransform':`translate3d(0,${this.state.scrollbarY}px,0)`}}></div>
             </div>)
             scrollY = (
-                <div className={!this.state.hideBarY && this.state.maxX > 2 && (this.state.cacheDirection === 'horizontal' || this.props.pattern === 'freedom')?'scroller-barx':'scroller-barx none'} >
+                <div ref={this.barY} className={!this.state.hideBarY && this.state.maxX > 2 && (this.state.cacheDirection === 'horizontal' || this.props.pattern === 'freedom')?'scroller-barx':'scroller-barx none'} >
                     <div className="scroll-indoor" style={{'width':this.scrollbarWidth+'%','transform':`translate3d(${this.state.scrollbarX}px,0,0)`,'WebkitTransform':`translate3d(${this.state.scrollbarX}px,0,0)`}}></div>
                 </div>
             )
@@ -182,12 +199,12 @@ export default class Scroller extends React.Component<ScrollerProps, ScrollerSta
 
         
         return (
-            <div className="itv-scroll" onTouchStart={(e) => this.touchstart(e, true)} onTouchMove={(e) => this.touchmove(e, true)} onTouchEnd={(e) => this.touchend(e, true)} onTouchCancel={(e) => this.touchend(e, true)} >
+            <div ref={this.root} className="itv-scroll" onTouchStart={(e) => this.touchstart(e, true)} onTouchMove={(e) => this.touchmove(e, true)} onTouchEnd={(e) => this.touchend(e, true)} onTouchCancel={(e) => this.touchend(e, true)} >
                 <div className="itv-scroll-content"  >
                     {scrollX}
                     {scrollY}
                     <div className="itv-scroll-touch" ref={this.scroller}  style={{'transform':`translate3d(-${this.state.x},-${this.state.y},0)`,'WebkitTransform':`translate3d(-${this.state.x},-${this.state.y},0)`}}>
-                        <div className="pull-top" v-if="pullDown"  ref={this.pull}>
+                        <div className={this.props.pullDown?'pull-top':'pull-top none'}  ref={this.pull}>
                             <div className="spinner-holder">
                                 {arrow}
                                 {spinner}
@@ -199,16 +216,13 @@ export default class Scroller extends React.Component<ScrollerProps, ScrollerSta
                                 </span>
                             </div>
                         </div> 
+                        <div className={this.props.isMore && this.state.moreStatus!=="loadingStop"?'itv-scroller-more':'itv-scroller-more none' } ref={this.more} >
+                            <Spinner className={this.state.moreStatus !== 'none'?'itv-scroller-more-icon': 'itv-scroller-more-icon none'} style={{fill: this.props.refreshLayerColor, stroke: this.props.refreshLayerColor}} />
+                            <span  className={this.state.moreStatus === 'none'?'': 'none'}>{this.props.noDataText}</span>
+                            <span className={this.state.moreStatus !== 'none'?'': 'none'}>{this.props.loadingText}</span>
+                        </div> 
                     </div>
-
-                    <div className={this.props.isMore && this.state.moreStatus!=="loadingStop"?'itv-scroller-more':'itv-scroller-more none' } >
-                        <Spinner className={this.state.moreStatus !== 'none'?'itv-scroller-more-icon': 'itv-scroller-more-icon none'} style={{fill: this.props.refreshLayerColor, stroke: this.props.refreshLayerColor}} />
-                        <span  className={this.state.moreStatus === 'none'?'': 'none'}>{this.props.noDataText}</span>
-                        <span className={this.state.moreStatus !== 'none'?'': 'none'}>{this.props.loadingText}</span>
-                    </div> 
-                    
                 </div>
-
             </div>
         )
     }

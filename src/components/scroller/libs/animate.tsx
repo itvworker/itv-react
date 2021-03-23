@@ -55,27 +55,30 @@ export default {
     //
     animate(speed, value) {
         
-        this.stepX = speed.x;
-        this.stepY = speed.y;
+        this.state.stepX = speed.x;
+        this.state.stepY = speed.y;
         
         
-        if(Math.abs(this.stepX)<5 || (this.cacheDirection === 'vertical'  && this.pattern ==='horizontal')) {
+        if(Math.abs(this.state.stepX)<5 || (this.state.cacheDirection === 'vertical'  && this.props.pattern ==='horizontal')) {
             
-            this.stepX = 0
+            this.state.stepX = 0
         }
     
-        if(Math.abs(this.stepY)<5 || (this.cacheDirection === 'horizontal'&& this.pattern ==="vertical")) {
+        if(Math.abs(this.stepY)<5 || (this.state.cacheDirection === 'horizontal'&& this.props.pattern ==="vertical")) {
             
-            this.stepY = 0
+            this.state.stepY = 0
         }
 
         if(this.stepY===0 && this.stepX === 0) {
-            this.$emit('stopscroll',{
-                x: this.scrollX,
-                y: this.scrollY
-            })
-            this.scrollBarTimeout = setTimeout(()=>{
-                this.hideBarY = true;
+            if(this.props.stopscroll) {
+                this.props.stopscroll({
+                    x: this.state.scrollX,
+                    y: this.state.scrollY
+                })
+            }
+            
+            this.state.scrollBarTimeout = setTimeout(()=>{
+                this.state.hideBarY = true;
             },2000)
             return 
         }
