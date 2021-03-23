@@ -4,6 +4,7 @@ import React from 'react';
 import Container from '@/layout/container';
 import Header from '@/layout/header';
 import Main from '@/layout/main';
+import ItvScroll from '../index.tsx'
 class DemoScroller extends React.Component{
     cellFef = React.createRef();
 
@@ -20,8 +21,10 @@ class DemoScroller extends React.Component{
         return (<Container>
                     <Header title="Scroller"/>
                     <Main>
-
-                        ------
+                        <ItvScroll >
+                            -----
+                        </ItvScroll>
+                      
                     </Main>
                 </Container>)
     }

@@ -1,9 +1,13 @@
 import React from 'react';
 import {ScrollerProps, ScrollerState} from './libs/interface'
-import '../../assets/css/itv-theme.less';
+
 import './itv-scroller.less';
 import Arrow from './com/Arrow';
 import Spinner from './com/Spinner'
+import animateClass from './libs/animate';
+import calcClass from './libs/calc';
+import touchClass from './libs/touch';
+import initClass from './libs/init'
 
 export default class Scroller extends React.Component<ScrollerProps, ScrollerState> {
     static defaultProps = {
@@ -101,54 +105,111 @@ export default class Scroller extends React.Component<ScrollerProps, ScrollerSta
             scrollBarTimeout: '',
             elPostion:{}, //位置滑动区所在的位置
             moreStatus: 'loadingStop', // loading加载中, loadingStop 加载完成，等待下次加载， none //没有更多数据 
-
+            contentWidth: null,
             parentScroller: null,
             childScroller: null
         }
     }
-    
-    render() {
-        return (
-            <div class="itv-scroll" onTouchStart={(e) => this.touchstart(e, true)} inTouchMove={(e) => this.touchmove(e, true)} onTouchEnd={(e) => this.touchend(e, true)} onTouchCancel={(e) => this.touchend(e, true)} >
-            {this.props.soltOther}
-     
-        <div class="itv-scroll-content"  >
-            <div class="scroller-bar" v-if={this.props.showScrollBar} v-show="!hideBarY && maxY > 2 && (cacheDirection === 'vertical' || pattern === 'freedom' )" >
-                <div class="scroll-indoor" ref="barY" :style="{'height':scrollbarHeight+'%','transform':`translate3d(0,${scrollbarY}px,0)`,'WebkitTransform':`translate3d(0,${scrollbarY}px,0)`}"></div>
-            </div>
-            <div class="scroller-barx" v-if="showScrollBar " v-show="!hideBarY && maxX > 2 && (cacheDirection === 'horizontal' || pattern === 'freedom')" >
-                <div class="scroll-indoor" ref="barX" :style="{'width':scrollbarWidth+'%','transform':`translate3d(${scrollbarX}px,0,0)`,'WebkitTransform':`translate3d(${scrollbarX}px,0,0)`}"></div>
-            </div>
-            <div class="itv-scroll-touch" ref="scroller"  :style="{'transform':`translate3d(-${x},-${y},0)`,'WebkitTransform':`translate3d(-${x},-${y},0)`}">
-                <div class="pull-top" v-if="pullDown" ref="pull">
-                    <slot name='pull'>
-                        <div class="spinner-holder">
-                            <arrow
-                                class="arrow"
-                                :class="{'active': status}"
-                                v-if="!isTriggerPullDown"
-                                :fillColor="refreshLayerColor"
-                            ></arrow>
-                             <spinner v-show="isTriggerPullDown" :style="{fill: refreshLayerColor, stroke: refreshLayerColor}"></spinner>
-                           
-                            <span
-                                class="text"
-                                :style="{color: refreshLayerColor}"
-                                v-text="text"
-                            ></span>
-                        </div>
-                    </slot>
-                </div>   
-                <slot/> 
+    scroller = React.createRef();
+    pull = React.createRef()
+    /**
+         * 判断是否竖向滑动
+         */
+    get isVertcialMove() {
+        return (this.props.pattern === 'vertical' || this.props.pattern === 'auto') && this.state.direction === 'vertical'
+    }
 
-                <div class="itv-scroller-more" ref="more" v-show='isMore && moreStatus!=="loadingStop"'>
-                    <spinner v-show="moreStatus !== 'none'" class="itv-scroller-more-icon" :style="{fill: refreshLayerColor, stroke: refreshLayerColor}" />
-                    <span v-show="moreStatus === 'none'">{{noDataText}}</span>
-                    <span v-show="moreStatus !== 'none'">{{loadingText}}</span>
-                </div>  
+    /**
+     * 判断是否横向滑动
+     */
+    get isHorizontalMove() {
+        return (this.props.pattern === 'horizontal' || this.props.pattern === 'auto') && this.state.direction === 'horizontal'
+    }
+    get scrollbarHeight() {
+      return parseInt((this.state.contentHeight /this.state.maxY)*100);
+    }
+    get scrollbarWidth() {
+        return parseInt((this.contentWidth / this.state.maxX)*100);
+    }
+    get scrollBarOuter() {
+        return this.state.contentHeight - parseInt(this.scrollbarHeight)/100 * this.state.contentHeight;
+    }
+    get scrollBarOuterWidth() {
+        
+        return this.contentWidth - parseInt(this.scrollbarWidth)/100 * this.contentWidth;
+    }
+    touchstart(e, value) {
+       
+        touchClass.touchstart.call(this, e, value);
+    }
+    touchmove(e, value) {
+        touchClass.touchmove.call(this, e, value);
+    }
+    touchend(e) {
+        touchClass.touchend.call(this, e, value);
+    }
+
+
+
+
+
+    render() {
+        let scrollX = null;
+        let scrollY = null;
+        if(this.props.showScrollBar) {
+            scrollX = ( <div className={!this.state.hideBarY && this.state.maxY > 2 && (this.state.cacheDirection === 'vertical' || this.props.pattern === 'freedom' )?"scroller-bar":"scroller-bar none" } >
+                 <div className="scroll-indoor"  style={{'height':this.scrollbarHeight+'%','transform':`translate3d(0,${this.state.scrollbarY}px,0)`,'WebkitTransform':`translate3d(0,${this.state.scrollbarY}px,0)`}}></div>
+            </div>)
+            scrollY = (
+                <div className={!this.state.hideBarY && this.state.maxX > 2 && (this.state.cacheDirection === 'horizontal' || this.props.pattern === 'freedom')?'scroller-barx':'scroller-barx none'} >
+                    <div className="scroll-indoor" style={{'width':this.scrollbarWidth+'%','transform':`translate3d(${this.state.scrollbarX}px,0,0)`,'WebkitTransform':`translate3d(${this.state.scrollbarX}px,0,0)`}}></div>
+                </div>
+            )
+        }
+
+        let arrow = null
+        let spinner = null;
+        if(!this.state.isTriggerPullDown) {
+            arrow = (
+                <Arrow className={this.state.status?'arrow active':'arrow'} fillColor={this.props.refreshLayerColor} />
+            )
+        }
+        if(this.state.isTriggerPullDown) {
+            spinner = (
+                <Spinner  style={{fill: this.props.refreshLayerColor, stroke: this.props.refreshLayerColor}} />
+            )
+        }
+
+        
+        return (
+            <div className="itv-scroll" onTouchStart={(e) => this.touchstart(e, true)} onTouchMove={(e) => this.touchmove(e, true)} onTouchEnd={(e) => this.touchend(e, true)} onTouchCancel={(e) => this.touchend(e, true)} >
+                <div className="itv-scroll-content"  >
+                    {scrollX}
+                    {scrollY}
+                    <div className="itv-scroll-touch" ref={this.scroller}  style={{'transform':`translate3d(-${this.state.x},-${this.state.y},0)`,'WebkitTransform':`translate3d(-${this.state.x},-${this.state.y},0)`}}>
+                        <div className="pull-top" v-if="pullDown"  ref={this.pull}>
+                            <div className="spinner-holder">
+                                {arrow}
+                                {spinner}
+                                <span
+                                    className="text"
+                                    style={{color: this.props.refreshLayerColor}}  
+                                >
+                                    {this.state.text}
+                                </span>
+                            </div>
+                        </div> 
+                    </div>
+
+                    <div className={this.props.isMore && this.state.moreStatus!=="loadingStop"?'itv-scroller-more':'itv-scroller-more none' } >
+                        <Spinner className={this.state.moreStatus !== 'none'?'itv-scroller-more-icon': 'itv-scroller-more-icon none'} style={{fill: this.props.refreshLayerColor, stroke: this.props.refreshLayerColor}} />
+                        <span  className={this.state.moreStatus === 'none'?'': 'none'}>{this.props.noDataText}</span>
+                        <span className={this.state.moreStatus !== 'none'?'': 'none'}>{this.props.loadingText}</span>
+                    </div> 
+                    
+                </div>
+
             </div>
-        </div>    
-    </div>
         )
     }
 }

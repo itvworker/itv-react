@@ -1,8 +1,12 @@
+@import '../../assets/css/itv-theme.less';
 .itv-scroll{
     position: relative;
     width: 100%;
     height: 100%;
     overflow: hidden;
+    .none{
+        display: none;
+    }
     .itv-scroll-content{
         position: absolute;
         left: 0;
@@ -85,6 +89,9 @@
             justify-content: center;
             font-size: 14ipx;
             color: @itv-color-text-gray;
+            &.none {
+                display: none;
+            }
             .itv-scroller-more-icon{
                 width: 24ipx;
                 margin-right: 10ipx;
