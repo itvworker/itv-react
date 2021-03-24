@@ -12,15 +12,15 @@ export default {
         if(dis===0) {
             return 0
         }
-        let step = this.stopStep; 
+        let step = this.state.stopStep; 
         let numDis = 0;
         while(numDis<dis) {
-            numDis+= step/this.percent
-            step = step/this.percent
+            numDis+= step/this.props.percent
+            step = step/this.props.percent
         }
 
         
-        step = step/this.percent
+        step = step/this.props.percent
         return step
     },
     /**
@@ -68,7 +68,6 @@ export default {
     calcMoveSpeed() {
         let touchList = this.state.touchMoveList;
 
-        
         // this.state.touchMoveList = [];
         let num = touchList.length
         if(num > 20) {

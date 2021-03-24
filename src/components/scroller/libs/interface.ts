@@ -90,7 +90,7 @@ export interface ScrollerState {
     cacheScrollbarX: Number, //缓存用，滚动条y的真实位置
     hideBarY: Boolean, //不可视化滚动动条
     scrollBarTimeout: Number,
-    elPostion: Object, //位置滑动区所在的位置
+    elPosition: Object, //位置滑动区所在的位置
     moreStatus: String, // loading加载中, loadingStop 加载完成，等待下次加载， none //没有更多数据 
     contentWidth: Number,
     parentScroller: null,

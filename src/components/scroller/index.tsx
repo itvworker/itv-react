@@ -10,6 +10,7 @@ import touchClass from './libs/touch';
 import initClass from './libs/init'
 import calc from './libs/calc';
 
+
 export default class Scroller extends React.Component<ScrollerProps, ScrollerState> {
     static defaultProps = {
         topBounce: false,
@@ -104,7 +105,7 @@ export default class Scroller extends React.Component<ScrollerProps, ScrollerSta
             cacheScrollbarX:0, //缓存用，滚动条y的真实位置
             hideBarY: true, //不可视化滚动动条
             scrollBarTimeout: '',
-            elPostion:{}, //位置滑动区所在的位置
+            elPosition:{}, //位置滑动区所在的位置
             moreStatus: 'loadingStop', // loading加载中, loadingStop 加载完成，等待下次加载， none //没有更多数据 
             contentWidth: null,
             parentScroller: null,
@@ -160,13 +161,28 @@ export default class Scroller extends React.Component<ScrollerProps, ScrollerSta
         touchClass.touchend.call(this, e, value);
     }
     calcMoveSpeed(){
-        calcClass.calcMoveSpeed.call(this);
+        return calcClass.calcMoveSpeed.call(this);
     }
     animate(speed, value) {
+        
         animateClass.animate.call(this, speed, value)
     }
     step(time, value){
-        animateClass.step.call(this,time, value)
+      
+        animateClass.step.call(this, time, value)
+    }
+    loadingData(value) {
+        initClass.loadingData.call(this, value);
+    }
+    calcStep(value) {
+        return calcClass.calcStep.call(this,value)
+    }
+    scrollTo(x,y,value=1) {
+       
+        animateClass.scrollTo.call(this,x,y,value)
+    }
+    onInfinite(value){
+        initClass.infinite.call(this,value)
     }
 
 
@@ -216,6 +232,7 @@ export default class Scroller extends React.Component<ScrollerProps, ScrollerSta
                                 </span>
                             </div>
                         </div> 
+                        {this.props.children}
                         <div className={this.props.isMore && this.state.moreStatus!=="loadingStop"?'itv-scroller-more':'itv-scroller-more none' } ref={this.more} >
                             <Spinner className={this.state.moreStatus !== 'none'?'itv-scroller-more-icon': 'itv-scroller-more-icon none'} style={{fill: this.props.refreshLayerColor, stroke: this.props.refreshLayerColor}} />
                             <span  className={this.state.moreStatus === 'none'?'': 'none'}>{this.props.noDataText}</span>

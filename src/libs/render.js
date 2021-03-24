@@ -30,7 +30,6 @@ export default function render(content) {
     if (helperElem.style[perspectiveProperty] !== undef) {
 
         return function(left, top, zoom) {
-            
             content.style[transformProperty] = 'translate3d(' + (-left) + 'px,' + (-top) + 'px,0) scale(' + zoom + ')';
         };
 

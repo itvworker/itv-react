@@ -35,8 +35,8 @@ export default {
        this.$parent.$on('scroll', (res)=>{
            if(res.y > this.top ) {
                let y =res.y-this.top;
-               if(y>this.maxY) {
-                   y = this.maxY
+               if(y>this.state.maxY) {
+                   y = this.state.maxY
                }
                this.y = y
                this.header(0,-this.y,1)
@@ -59,7 +59,7 @@ export default {
             this.height = this.$el.clientHeight;
             this.header = render(this.$el.children[0]);
             this.headerHeight = this.$el.children[0].clientHeight;
-            this.maxY = this.height - this.headerHeight;
+            this.state.maxY = this.height - this.headerHeight;
         }
     }
 

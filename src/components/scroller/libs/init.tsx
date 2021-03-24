@@ -9,7 +9,7 @@ export default {
             if(parttern === 'horizontal' || parttern==='freedom' || parttern === 'auto')  {
                 this.state.scrollBarXRender = render(this.barX);
             }
-            if(this.pattern === 'vertical' || this.pattern==='freedom' || this.pattern==='auto') {
+            if(this.props.pattern === 'vertical' || this.props.pattern==='freedom' || this.props.pattern==='auto') {
                 this.state.scrollBarYRender = render(this.barY);
             }
         }
@@ -19,14 +19,17 @@ export default {
   
     //下拉加载复位
     refresh() {
-        if(this.scrollY < 0) {
-            this.scrollTo(this.scrollX, 0, 1.5);
+        if(this.state.scrollY < 0) {
+            this.scrollTo(this.state.scrollX, 0, 1.5);
         }
-        this.isTriggerPullDown = false
+        this.state.isTriggerPullDown = false
         this.$nextTick(()=>{
             this.calcMax()
             if(this.isMore) {
-                this.moreStatus = 'loadingStop'; 
+                this.setState({
+                    moreStatus: 'loadingStop'
+                })
+                
             }
         })  
         this.$emit("content");
@@ -34,20 +37,30 @@ export default {
     },
     //是否触发上拉加载
     loadingData(value) {
-        if(this.isMore && value >= this.maxY && this.moreStatus ==='loadingStop') {
-            this.moreStatus = 'loading';
-            this.$emit('infinite')
-            this.$emit('onInfinite')
-            this.$nextTick(()=>{
+    
+        if(this.props.isMore && value >= this.state.maxY && this.state.moreStatus ==='loadingStop') {
+            this.setState({
+                moreStatus: 'loading'
+            });
+           if(this.props.onInfinite) {
+            this.props.onInfinite()
+           }
+            
+            setTimeout(()=>{
                 this.calcMax()
             })
         }
     },
     infinite(value) {
         if(value) {
-            this.moreStatus = 'none';
+            this.setState({
+                moreStatus: 'none'
+            });
+            
         }else{
-            this.moreStatus = 'loadingStop'; 
+            this.setState({
+                moreStatus: 'loadingStop'
+            });
         }
         
         this.$nextTick(()=>{

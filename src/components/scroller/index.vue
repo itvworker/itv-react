@@ -206,17 +206,17 @@ export default {
     },
     watch: {
         scrollY(n) {
-            if(this.isTriggerPullDown) {
+            if(this.state.isTriggerPullDown) {
                 this.text = this.refreshText;
                 return
             }
-            if(this.isTouch && n < this.pullDownPoint) {
+            if(this.state.isTouch && n < this.state.pullDownPoint) {
                 this.text = this.loseenText
                 this.status = 1
                 return
             }
 
-            if(this.isTouch && n > this.pullDownPoint) {
+            if(this.state.isTouch && n > this.state.pullDownPoint) {
                 this.text = this.pullText;
                 this.status = 0
                 return
@@ -282,7 +282,7 @@ export default {
             cacheScrollbarX:0, //缓存用，滚动条y的真实位置
             hideBarY: true, //不可视化滚动动条
             scrollBarTimeout: '',
-            elPostion:{}, //位置滑动区所在的位置
+            elPosition:{}, //位置滑动区所在的位置
             moreStatus: 'loadingStop', // loading加载中, loadingStop 加载完成，等待下次加载， none //没有更多数据 
 
             parentScroller: null,
