@@ -1,7 +1,7 @@
 import getDirection from '../../../libs/touch'
 export default {
     touchstart(e, self) {
-    
+        
         //启用自定义调用事件
         this.elPositon = this.root.current.getBoundingClientRect();
         if(this.props.touchType === 'custom' && self) return
@@ -133,7 +133,11 @@ export default {
                 scrollY = this.state.maxY
             }
 
+            
+            
+            
             this.state.scrollY = scrollY  
+            
           
         }
         if(this.isHorizontalMove || this.props.pattern === 'freedom' ) {
@@ -235,9 +239,14 @@ export default {
                 if(this.props.pullDown) {
                     //触发下拉刷新事件
                     if(!this.state.isTriggerPullDown && this.state.scrollY < this.state.pullDownPoint) {
-                        this.state.isTriggerPullDown = true
-                        this.$emit('refresh');
-                        this.$emit('onRefresh');
+                        this.setState({
+                            isTriggerPullDown: true
+                        })
+                      
+                        if(this.props.onRefresh){
+                            this.props.onRefresh(this)
+                        }
+                        
                         this.scrollTo(this.state.scrollX, this.state.pullDownPoint, 1.5)
                         return
                     }
@@ -260,6 +269,8 @@ export default {
             } 
         }
         let speed = this.calcMoveSpeed();
+        speed.x = speed.x * 0.6;
+        speed.y = speed.y * 0.6;
       
         this.animate(speed);          
     }

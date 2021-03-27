@@ -8,10 +8,11 @@ import ItvScroll from '../index.tsx'
 class DemoScroller extends React.Component{
     cellFef = React.createRef();
     scroller = React.createRef();
+    
+    
     constructor(props: any) {
         super(props);
         this.state = {
-
             list:[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
         }
     }
@@ -28,7 +29,7 @@ class DemoScroller extends React.Component{
         return (<Container>
                     <Header title="Scroller"/>
                     <Main>
-                        <ItvScroll ref={this.scroller} topBounce bottomBounce isMore onInfinite={this.onInfinite.bind(this)}  >
+                        <ItvScroll onRefresh={this.onRefresh.bind(this)} pullDown ref={this.scroller} topBounce bottomBounce isMore onInfinite={this.onInfinite.bind(this)}  >
                             
                             {list}
                             
@@ -43,6 +44,11 @@ class DemoScroller extends React.Component{
         //   debugger
         //     this.scroller.infinite(true)
         // },300)
+        
+    }
+
+    onRefresh(child) {
+        console.log(this.scroller);
         
     }
     componentDidMount() {

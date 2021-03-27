@@ -22,17 +22,21 @@ export default {
         if(this.state.scrollY < 0) {
             this.scrollTo(this.state.scrollX, 0, 1.5);
         }
-        this.state.isTriggerPullDown = false
-        this.$nextTick(()=>{
+       
+        this.setState({
+            isTriggerPullDown: false
+        })
+        setTimeout(()=>{
             this.calcMax()
-            if(this.isMore) {
+            if(this.props.isMore) {
                 this.setState({
                     moreStatus: 'loadingStop'
                 })
                 
             }
-        })  
-        this.$emit("content");
+        })
+        
+        
       
     },
     //是否触发上拉加载
@@ -62,9 +66,9 @@ export default {
                 moreStatus: 'loadingStop'
             });
         }
-        
-        this.$nextTick(()=>{
+        setTimeout(()=>{
             this.calcMax()
-        })  
+        })
+        
     }
 }

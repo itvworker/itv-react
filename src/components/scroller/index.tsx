@@ -8,10 +8,9 @@ import animateClass from './libs/animate';
 import calcClass from './libs/calc';
 import touchClass from './libs/touch';
 import initClass from './libs/init'
-import calc from './libs/calc';
-
 
 export default class Scroller extends React.Component<ScrollerProps, ScrollerState> {
+   
     static defaultProps = {
         topBounce: false,
         bottomBounce: false,
@@ -66,7 +65,7 @@ export default class Scroller extends React.Component<ScrollerProps, ScrollerSta
     }
     constructor(props) {
         super(props)
-        this.state = {
+        let state = {
             text:"",
             status: 0,
             x: 0, //x轴位置，初始化有用 
@@ -111,6 +110,18 @@ export default class Scroller extends React.Component<ScrollerProps, ScrollerSta
             parentScroller: null,
             childScroller: null
         }
+       
+        // this.cache = new Proxy(state,{
+        //     get:(target, key, receiver)=> {
+        //         return Reflect.get(target, key, receiver);
+        //     },
+        //     set:(target, key, value, receiver)=> {
+                
+                
+        //         return Reflect.set(target, key, value, receiver);
+        //     }
+        // })
+        
     }
     scroller = React.createRef();
     pull = React.createRef();
@@ -144,8 +155,23 @@ export default class Scroller extends React.Component<ScrollerProps, ScrollerSta
         
         return this.contentWidth - parseInt(this.scrollbarWidth)/100 * this.contentWidth;
     }
+    get reText() {
+        if(this.state.isTriggerPullDown) {
+            return this.props.refreshText;
+        }
+        if(this.state.isTouch && this.state.scrollY < this.state.pullDownPoint) {
+            
+            return this.props.loseenText
+        }
+
+        if(this.state.isTouch && this.state.scrollY > this.state.pullDownPoint) {
+            return this.props.pullText
+        }
+        this.loadingData(this.state.scrollY);
+    }
     componentDidMount(){
         initClass.mounted.call(this)
+       
     }
     calcMax() {
         calcClass.calcMax.call(this);
@@ -184,8 +210,8 @@ export default class Scroller extends React.Component<ScrollerProps, ScrollerSta
     onInfinite(value){
         initClass.infinite.call(this,value)
     }
-
-
+   
+    
     render() {
         let scrollX = null;
         let scrollY = null;
@@ -215,7 +241,7 @@ export default class Scroller extends React.Component<ScrollerProps, ScrollerSta
 
         
         return (
-            <div ref={this.root} className="itv-scroll" onTouchStart={(e) => this.touchstart(e, true)} onTouchMove={(e) => this.touchmove(e, true)} onTouchEnd={(e) => this.touchend(e, true)} onTouchCancel={(e) => this.touchend(e, true)} >
+            <div ref={this.root}  className="itv-scroll" onTouchStart={(e) => this.touchstart(e, true)} onTouchMove={(e) => this.touchmove(e, true)} onTouchEnd={(e) => this.touchend(e, true)} onTouchCancel={(e) => this.touchend(e, true)} >
                 <div className="itv-scroll-content"  >
                     {scrollX}
                     {scrollY}
@@ -228,10 +254,13 @@ export default class Scroller extends React.Component<ScrollerProps, ScrollerSta
                                     className="text"
                                     style={{color: this.props.refreshLayerColor}}  
                                 >
+
                                     {this.state.text}
                                 </span>
                             </div>
-                        </div> 
+                        </div>
+                         {this.reText}
+                        
                         {this.props.children}
                         <div className={this.props.isMore && this.state.moreStatus!=="loadingStop"?'itv-scroller-more':'itv-scroller-more none' } ref={this.more} >
                             <Spinner className={this.state.moreStatus !== 'none'?'itv-scroller-more-icon': 'itv-scroller-more-icon none'} style={{fill: this.props.refreshLayerColor, stroke: this.props.refreshLayerColor}} />
