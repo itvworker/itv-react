@@ -1,5 +1,5 @@
 //根据起点终点返回方向 1向上 2向下 3向左 4向右 0未滑动
-export default function(startx, starty, endx, endy, show) {
+export default function Dir(startx, starty, endx, endy, show) {
     var angx = endx - startx
     var angy = endy - starty
     var result = 0

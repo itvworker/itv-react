@@ -1,5 +1,5 @@
 import getDirection from '../../../libs/touch'
-export default {
+const Touch = {
     touchstart(e, self) {
         
         //启用自定义调用事件
@@ -8,16 +8,16 @@ export default {
         if (e.target.tagName.match(/input|textarea|select/i)) {
             return
         }
-        this.state.direction = null;
-        this.state.isTouch = true;
-        this.state.scrollToX = null;
-        this.state.scrollToY = null;
+        this.cache.direction = null;
+        this.cache.isTouch = true;
+        this.cache.scrollToX = null;
+        this.cache.scrollToY = null;
         let touches = e.touches;
         if(this.tier === 'parent') {
             
-            this.state.childScroller.touchMoveList = this.state.touchMoveList;
+            this.cache.childScroller.touchMoveList = this.cache.touchMoveList;
         }
-        this.state.touchMoveList.splice(0, this.state.touchMoveList.length)
+        this.cache.touchMoveList.splice(0, this.cache.touchMoveList.length)
         //检查手指数量
         if (touches.length == null) {
             throw new Error("Invalid touch list: " + touches);
@@ -28,19 +28,19 @@ export default {
         
         let isSingleTouch = touches.length === 1;
         if (isSingleTouch) {
-            this.state.moveX = touches[0].pageX;
-            this.state.moveY = touches[0].pageY;
+            this.cache.moveX = touches[0].pageX;
+            this.cache.moveY = touches[0].pageY;
         } else {
-            this.state.moveX = Math.abs(touches[0].pageX + touches[1].pageX) / 2;
-            this.state.moveY = Math.abs(touches[0].pageY + touches[1].pageY) / 2;
+            this.cache.moveX = Math.abs(touches[0].pageX + touches[1].pageX) / 2;
+            this.cache.moveY = Math.abs(touches[0].pageY + touches[1].pageY) / 2;
         }
-        this.state.startX = this.moveX 
-        this.state.startY = this.moveY
+        this.cache.startX = this.moveX 
+        this.cache.startY = this.moveY
 
         
-        this.state.touchMoveList.push({
-            x: this.state.moveX,
-            y: this.state.moveY,
+        this.cache.touchMoveList.push({
+            x: this.cache.moveX,
+            y: this.cache.moveY,
             time: new Date().getTime()
         })
 
@@ -49,9 +49,10 @@ export default {
     
     touchmove(e, self) {
         //启用自定义调用事件
-        // e.preventDefault();
+        e.passive = false;
+        e.preventDefault();
         if(this.props.touchType === 'custom' && self) return
-        if(this.state.isTouch ===false) return
+        if(this.cache.isTouch ===false) return
         
         let touches = e.touches;
         //检查手指数量
@@ -70,9 +71,9 @@ export default {
             moveY = Math.abs(touches[0].pageY + touches[1].pageY) / 2;
         }
         
-        let upxy = this.state.touchMoveList[this.state.touchMoveList.length-1];
-        this.state.moveX = upxy.x;
-        this.state.moveY = upxy.y;
+        let upxy = this.cache.touchMoveList[this.cache.touchMoveList.length-1];
+        this.cache.moveX = upxy.x;
+        this.cache.moveY = upxy.y;
         let positon = this.elPositon
         if(moveX  < positon.left || moveX  > positon.right ||  moveY < positon.top ||  moveY > positon.bottom) {
             this.touchend(e)
@@ -80,25 +81,25 @@ export default {
         }
 
         //判断滑动方向，并获取滑动距离
-        let res = getDirection(this.state.moveX, this.state.moveY, moveX, moveY, this.state.direction)
+        let res = getDirection(this.cache.moveX, this.cache.moveY, moveX, moveY, this.cache.direction)
         //根据起点终点返回方向 1向上 2向下 3向左 4向右 0未滑动
         if(!res) return
         
         
-        if((res.type===1 || res.type === 2) && !this.state.direction) {
-            this.state.direction = 'vertical'
-            this.state.cacheDirection = 'vertical'
+        if((res.type===1 || res.type === 2) && !this.cache.direction) {
+            this.cache.direction = 'vertical'
+            this.cache.cacheDirection = 'vertical'
         }
-        if((res.type===3 || res.type === 4) && !this.state.direction) {
-            this.state.direction = 'horizontal'
-            this.state.cacheDirection = 'horizontal'  
+        if((res.type===3 || res.type === 4) && !this.cache.direction) {
+            this.cache.direction = 'horizontal'
+            this.cache.cacheDirection = 'horizontal'  
         }
-        if(!this.state.direction) return
+        if(!this.cache.direction) return
 
        
         // this.moveX = moveX;
         // this.moveY = moveY;
-        this.state.touchMoveList.push({
+        this.cache.touchMoveList.push({
             x: moveX,
             y: moveY,
             time: new Date().getTime()
@@ -113,15 +114,15 @@ export default {
        
       
         if(this.isVertcialMove || this.props.pattern === 'freedom') {
-            let scrollY = this.state.scrollY - res.angy;
+            let scrollY = this.cache.scrollY - res.angy;
 
             if(this.props.pattern === 'vertical' && this.props.pattern !== 'freedom') {
-                this.state.scrollX = 0;
+                this.cache.scrollX = 0;
             }
             //允许弹动时
-            if((scrollY < 0 && this.props.topBounce) || (scrollY > this.state.maxY && this.props.bottomBounce)) {
-                if((this.state.scrollY < 0 && res.angy > 0) || (this.state.scrollY > this.state.maxY && res.angy < 0) ) {
-                    scrollY = this.state.scrollY - (res.angy*0.5)
+            if((scrollY < 0 && this.props.topBounce) || (scrollY > this.cache.maxY && this.props.bottomBounce)) {
+                if((this.cache.scrollY < 0 && res.angy > 0) || (this.cache.scrollY > this.cache.maxY && res.angy < 0) ) {
+                    scrollY = this.cache.scrollY - (res.angy*0.5)
                 }
             }
             //不许弹动时
@@ -129,29 +130,29 @@ export default {
                 scrollY = 0
             }
             //不许弹动时
-            if(scrollY > this.state.maxY && !this.props.bottomBounce) {
-                scrollY = this.state.maxY
+            if(scrollY > this.cache.maxY && !this.props.bottomBounce) {
+                scrollY = this.cache.maxY
             }
 
             
             
             
-            this.state.scrollY = scrollY  
+            this.cache.scrollY = scrollY  
             
           
         }
         if(this.isHorizontalMove || this.props.pattern === 'freedom' ) {
            
-            let scrollX = this.state.scrollX - res.angx;
+            let scrollX = this.cache.scrollX - res.angx;
             if(this.props.pattern === 'horizontal' && this.props.pattern !== 'freedom') {
-                this.state.scrollY = 0;
+                this.cache.scrollY = 0;
             }
 
 
             //允许弹动时
-            if((scrollX < 0 && this.props.leftBounce) || (scrollX > this.state.maxX && this.props.rightBounce)) {
-                if((this.state.scrollX < 0 && res.angx > 0) || (this.state.scrollX > this.state.maxX && res.angx < 0) ) {
-                    scrollX = this.state.scrollX - (res.angx*0.5)
+            if((scrollX < 0 && this.props.leftBounce) || (scrollX > this.cache.maxX && this.props.rightBounce)) {
+                if((this.cache.scrollX < 0 && res.angx > 0) || (this.cache.scrollX > this.cache.maxX && res.angx < 0) ) {
+                    scrollX = this.cache.scrollX - (res.angx*0.5)
                 }
             }
             //不许弹动时
@@ -159,33 +160,33 @@ export default {
                 scrollX = 0
             }
             //不许弹动时
-            if(scrollX > this.state.maxX && !this.props.rightBounce) {
-                scrollX = this.state.maxX
+            if(scrollX > this.cache.maxX && !this.props.rightBounce) {
+                scrollX = this.cache.maxX
             }
-            this.state.scrollX = scrollX;
+            this.cache.scrollX = scrollX;
 
         }
         
         
         
 
-        this.state.scrollRender(this.state.scrollX, this.state.scrollY, 1)
+        this.cache.scrollRender(this.cache.scrollX, this.cache.scrollY, 1)
 
-        if(this.state.scrollXRender) {
-            this.state.scrollXRender(this.state.scrollX,0,1)
+        if(this.cache.scrollXRender) {
+            this.cache.scrollXRender(this.cache.scrollX,0,1)
         }
-        if(this.state.scrollYRender) {
-            this.state.scrollYRender(0,this.state.scrollY,1)
+        if(this.cache.scrollYRender) {
+            this.cache.scrollYRender(0,this.cache.scrollY,1)
         }
         this.hideBarY = false;
         if(this.scrollBarYRender) {
-            let percent = parseInt(this.state.scrollY / this.state.maxY * 100)/100;
+            let percent = parseInt(this.cache.scrollY / this.cache.maxY * 100)/100;
             this.cacheScrollBarY = this.scrollBarOuter*percent;
             this.scrollBarYRender(0,-this.cacheScrollBarY,1)
         }
         if(this.scrollBarXRender) {
          
-            let percent = parseInt(this.state.scrollX / this.state.maxX * 100)/100;
+            let percent = parseInt(this.cache.scrollX / this.cache.maxX * 100)/100;
             this.cacheScrollBarX = this.scrollBarOuterWidth*percent;
             this.scrollBarXRender( -this.cacheScrollBarX,0,1)
         }
@@ -196,82 +197,86 @@ export default {
         }
        if(this.props.onScroll) {
         this.props.onScroll({
-            x: this.state.scrollX,
-            y: this.state.scrollY
+            x: this.cache.scrollX,
+            y: this.cache.scrollY
         })
+        
        }
+       this.emitScroll({
+            x: this.cache.scrollX,
+            y: this.cache.scrollY
+        })
         
-       this.loadingData(this.state.scrollY)
-        
+       this.loadingData(this.cache.scrollY)
          
-
 
     },
     touchend(e, self) {
         //启用自定义调用事件
         if(this.props.touchType === 'custom' && self) return
-        if(this.state.isTouch===false) return; 
-        this.state.isMove = false;
-        this.state.isTouch = false;
+        if(this.cache.isTouch===false) return; 
+        this.cache.isMove = false;
+        this.cache.isTouch = false;
         
-        if(this.state.touchMoveList.length<=0) return
-        this.state.touchMoveList[this.state.touchMoveList.length-1].time = new Date().getTime()
-        if(this.state.direction === 'horizontal') {
+        if(this.cache.touchMoveList.length<=0) return
+        this.cache.touchMoveList[this.cache.touchMoveList.length-1].time = new Date().getTime()
+        if(this.cache.direction === 'horizontal') {
             if(this.props.pattern === 'horizontal') {
-                this.state.scrollY = 0;
+                this.cache.scrollY = 0;
             }
 
-            if(this.state.scrollX < 0 ) {
-                this.scrollTo(0, this.state.scrollY,1.5)
+            if(this.cache.scrollX < 0 ) {
+                this.scrollTo(0, this.cache.scrollY,1.5)
                 return
             } 
 
-            if(this.state.scrollX > this.state.maxX) {
-                this.scrollTo(this.state.maxX, this.state.scrollY,1.5)
+            if(this.cache.scrollX > this.cache.maxX) {
+                this.scrollTo(this.cache.maxX, this.cache.scrollY,1.5)
                 return
             } 
         }
-        if(this.state.direction === 'vertical') { 
+        if(this.cache.direction === 'vertical') { 
             if(this.props.pattern === 'vertical') {
-                this.state.scrollX = 0;
+                this.cache.scrollX = 0;
             }
-            if(this.state.scrollY < 0 ) {
+            if(this.cache.scrollY < 0 ) {
                 if(this.props.pullDown) {
                     //触发下拉刷新事件
-                    if(!this.state.isTriggerPullDown && this.state.scrollY < this.state.pullDownPoint) {
-                        this.setState({
-                            isTriggerPullDown: true
-                        })
+                    if(!this.cache.isTriggerPullDown && this.cache.scrollY < this.cache.pullDownPoint) {
+                       
+                        this.cache.isTriggerPullDown = true;
                       
                         if(this.props.onRefresh){
                             this.props.onRefresh(this)
                         }
                         
-                        this.scrollTo(this.state.scrollX, this.state.pullDownPoint, 1.5)
+                        this.scrollTo(this.cache.scrollX, this.cache.pullDownPoint, 1.5)
                         return
                     }
 
-                    if(this.state.scrollY < this.state.pullDownPoint) {
-                        this.scrollTo(this.state.scrollX, this.state.pullDownPoint, 1.5);
+                    if(this.cache.scrollY < this.cache.pullDownPoint) {
+                        this.scrollTo(this.cache.scrollX, this.cache.pullDownPoint, 1.5);
                         return
                     }
                     
                     
                 }
                 
-                this.scrollTo(this.state.scrollX,0,1.5)
+                this.scrollTo(this.cache.scrollX,0,1.5)
                 return
             } 
 
-            if(this.state.scrollY > this.state.maxY) {
-                this.scrollTo(this.state.scrollX,this.state.maxY,1.5)
+            if(this.cache.scrollY > this.cache.maxY) {
+                this.scrollTo(this.cache.scrollX,this.cache.maxY,1.5)
                 return
             } 
         }
         let speed = this.calcMoveSpeed();
-        speed.x = speed.x * 0.6;
-        speed.y = speed.y * 0.6;
+        speed.x = speed.x * 0.4;
+        speed.y = speed.y * 0.4;
       
         this.animate(speed);          
     }
 }
+
+export default Touch;

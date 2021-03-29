@@ -4,7 +4,7 @@ export default function Arrow(props) {
         fillColor ='#aaa'
     }
     return (
-        <svg class="arrow" viewBox="0 0 63.657 63.657" style={{'enableBackground':'new 0 0 63.657 63.657'}}  width="512px" height="512px">
+        <svg className="arrow" viewBox="0 0 63.657 63.657" style={{'enableBackground':'new 0 0 63.657 63.657'}}  width="512px" height="512px">
         <g>
             <g>
                 <g>

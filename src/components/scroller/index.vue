@@ -206,17 +206,17 @@ export default {
     },
     watch: {
         scrollY(n) {
-            if(this.state.isTriggerPullDown) {
+            if(this.cache.isTriggerPullDown) {
                 this.text = this.refreshText;
                 return
             }
-            if(this.state.isTouch && n < this.state.pullDownPoint) {
+            if(this.cache.isTouch && n < this.cache.pullDownPoint) {
                 this.text = this.loseenText
                 this.status = 1
                 return
             }
 
-            if(this.state.isTouch && n > this.state.pullDownPoint) {
+            if(this.cache.isTouch && n > this.cache.pullDownPoint) {
                 this.text = this.pullText;
                 this.status = 0
                 return

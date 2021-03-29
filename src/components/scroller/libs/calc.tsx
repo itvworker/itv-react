@@ -1,6 +1,6 @@
 
 
-export default {
+ const Calc = {
     
     /**
          * 计滚动到一定距离的stepX,stepY的开始步数
@@ -12,7 +12,7 @@ export default {
         if(dis===0) {
             return 0
         }
-        let step = this.state.stopStep; 
+        let step = this.cache.stopStep; 
         let numDis = 0;
         while(numDis<dis) {
             numDis+= step/this.props.percent
@@ -27,7 +27,7 @@ export default {
      * 计算滚动的最大值
      */
     calcMax() {
-      
+        
         let parent = this.scroller.current.parentNode;
         
         let child = this.scroller.current;
@@ -38,37 +38,37 @@ export default {
         let childHeight = child.clientHeight;
 
         
-        this.state.maxX = Math.max(0,childWidth - parentWidth);
-        this.state.maxY = Math.max(0,childHeight - parentHeight);
-        this.state.contentHeight = parentHeight;
-        this.state.contentWidth = parentWidth;
+        this.cache.maxX = Math.max(0,childWidth - parentWidth);
+        this.cache.maxY = Math.max(0,childHeight - parentHeight);
+        this.cache.contentHeight = parentHeight;
+        this.cache.contentWidth = parentWidth;
       
         this.state.elPositon = this.root.current.getBoundingClientRect()
         //当滚动值超过最大值时，恢复到最大值
 
-        if(this.state.scrollX > this.state.maxX) {
-            this.state.scrollX =  this.state.maxX;
-            this.state.x =  this.state.maxX;
+        if(this.cache.scrollX > this.cache.maxX) {
+            this.cache.scrollX =  this.cache.maxX;
+            this.cache.x =  this.cache.maxX;
         }
         
-        if(this.state.scrollY > this.state.maxY) {
-            this.state.scrollY =  this.state.maxY;
-            this.y =  this.state.maxY
+        if(this.cache.scrollY > this.cache.maxY) {
+            this.cache.scrollY =  this.cache.maxY;
+            this.y =  this.cache.maxY
         }
-        this.state.scrollRender(this.state.scrollX , this.state.scrollY, 1);
+        this.cache.scrollRender(this.cache.scrollX , this.cache.scrollY, 1);
    
         //计算下拉加载触发点
         if(this.props.pullDown) {
-           this.state.pullDownPoint =  -this.pull.current.clientHeight
+           this.cache.pullDownPoint =  -this.pull.current.clientHeight
         }
         
 
     },
     //计算touch结束后的滑动速度
     calcMoveSpeed() {
-        let touchList = this.state.touchMoveList;
+        let touchList = this.cache.touchMoveList;
 
-        // this.state.touchMoveList = [];
+        // this.cache.touchMoveList = [];
         let num = touchList.length
         if(num > 20) {
             touchList = touchList.slice(num-20, num)
@@ -87,10 +87,10 @@ export default {
         let x = touchList[last].x-touchList[first].x 
         let y = touchList[last].y-touchList[first].y
         
-        if(Math.abs(x)<2) {
+        if(Math.abs(x)<10) {
             x = 0
         }
-        if(Math.abs(y)<2) {
+        if(Math.abs(y)<10) {
             y = 0
         }
 
@@ -119,3 +119,4 @@ export default {
     }
       
 }
+export default Calc;

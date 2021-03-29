@@ -1,4 +1,4 @@
-export default {
+const animate = {
     //滚动到指定位置
     /**
      * 
@@ -8,14 +8,14 @@ export default {
      */
     scrollTo(x,y,value=1) {
         
-        this.state.scrollToX =x;
-        this.state.scrollToY = y;
-        let dx = this.state.scrollX - x;
-        let dy = this.state.scrollY - y;
-        this.state.stepY = dy > 0? this.calcStep(dy):-this.calcStep(dy)
-        this.state.stepX = dx > 0? this.calcStep(dx):-this.calcStep(dx)
-        this.state.stepX*=value
-        this.state.stepY*=value
+        this.cache.scrollToX =x;
+        this.cache.scrollToY = y;
+        let dx = this.cache.scrollX - x;
+        let dy = this.cache.scrollY - y;
+        this.cache.stepY = dy > 0? this.calcStep(dy):-this.calcStep(dy)
+        this.cache.stepX = dx > 0? this.calcStep(dx):-this.calcStep(dx)
+        this.cache.stepX*=value
+        this.cache.stepY*=value
         
         
         window.requestAnimationFrame(this.step.bind(this));                 
@@ -27,58 +27,58 @@ export default {
      * @param {*} y 
      */
     scrollToNow(x, y) {
-        if(x> this.state.maxX) {
-            x = this.state.maxX;
+        if(x> this.cache.maxX) {
+            x = this.cache.maxX;
         }
         if(x < 0) {
             x = 0
         }
 
-        if(y> this.state.maxY) {
-            y = this.state.maxY;
+        if(y> this.cache.maxY) {
+            y = this.cache.maxY;
         }
         if(y < 0) {
             y = 0
         }
 
-        this.state.scrollX =x;
-        this.state.scrollY = y;
-        this.state.scrollRender(x, y, 1)
+        this.cache.scrollX =x;
+        this.cache.scrollY = y;
+        this.cache.scrollRender(x, y, 1)
     },
     /**
      * 缓存位置，需要结合keeplive组件
      */
     cache() {
-        this.x = this.state.scrollX;
-        this.y = this.state.scrollY
+        this.x = this.cache.scrollX;
+        this.y = this.cache.scrollY
     },
     //
     animate(speed, value) {
      
-        this.state.stepX = speed.x;
-        this.state.stepY = speed.y;
+        this.cache.stepX = speed.x;
+        this.cache.stepY = speed.y;
         
         
-        if(Math.abs(this.state.stepX)<5 || (this.state.cacheDirection === 'vertical'  && this.props.pattern ==='horizontal')) {
+        if(Math.abs(this.cache.stepX)<5 || (this.cache.cacheDirection === 'vertical'  && this.props.pattern ==='horizontal')) {
             
-            this.state.stepX = 0
+            this.cache.stepX = 0
         }
     
-        if(Math.abs(this.state.stepY)<5 || (this.state.cacheDirection === 'horizontal'&& this.props.pattern ==="vertical")) {
+        if(Math.abs(this.cache.stepY)<5 || (this.cache.cacheDirection === 'horizontal'&& this.props.pattern ==="vertical")) {
             
-            this.state.stepY = 0
+            this.cache.stepY = 0
         }
 
-        if(this.state.stepY===0 && this.state.stepX === 0) {
+        if(this.cache.stepY===0 && this.cache.stepX === 0) {
             if(this.props.onStopscroll) {
                 this.props.onStopscroll({
-                    x: this.state.scrollX,
-                    y: this.state.scrollY
+                    x: this.cache.scrollX,
+                    y: this.cache.scrollY
                 })
             }
             
             this.state.scrollBarTimeout = setTimeout(()=>{
-                this.state.hideBarY = true;
+                this.cache.hideBarY = true;
             },2000)
             return 
         }
@@ -91,165 +91,169 @@ export default {
     step(time, value) {
        
         let continuing = true;
-        if(this.state.isTouch || this.state.isMove) return;
+        if(this.cache.isTouch || this.cache.isMove) return;
            
         
-        let scrollX = this.state.scrollX - this.state.stepX
-        let scrollY = this.state.scrollY - this.state.stepY
+        let scrollX = this.cache.scrollX - this.cache.stepX
+        let scrollY = this.cache.scrollY - this.cache.stepY
         
 
         //当快要滚动到指定点的Y轴时
-        let arriveY = ((this.state.stepY < 0 && scrollY > this.state.scrollToY) || (this.state.stepY > 0 && scrollY < this.state.scrollToY)) && this.state.scrollToY!==null
+        let arriveY = ((this.cache.stepY < 0 && scrollY > this.cache.scrollToY) || (this.cache.stepY > 0 && scrollY < this.cache.scrollToY)) && this.cache.scrollToY!==null
         if(arriveY) {
-            this.state.stepY = 0;
-            scrollY = this.state.scrollToY;
-            this.state.scrollToY = null;
+            this.cache.stepY = 0;
+            scrollY = this.cache.scrollToY;
+            this.cache.scrollToY = null;
             continuing = false;
             
         }
 
-        let arriveX = ((this.state.stepX < 0 && scrollX > this.state.scrollToX) || (this.state.stepX > 0 && scrollX < this.state.scrollToX)) && this.state.scrollToX!==null
+        let arriveX = ((this.cache.stepX < 0 && scrollX > this.cache.scrollToX) || (this.cache.stepX > 0 && scrollX < this.cache.scrollToX)) && this.cache.scrollToX!==null
         if(arriveX) {
-            this.state.stepX = 0;
-            scrollX = this.state.scrollToX;
-            this.state.scrollToX = null;
+            this.cache.stepX = 0;
+            scrollX = this.cache.scrollToX;
+            this.cache.scrollToX = null;
             
             
         }
 
         //当是指定滚动到某一点时
-        if(this.state.stepY > 0 && this.state.scrollToY!==null &&scrollY < this.state.scrollToY) {
-            this.state.stepY = 0;
-            scrollY = this.state.scrollToY;
-            this.state.scrollToY = null;
+        if(this.cache.stepY > 0 && this.cache.scrollToY!==null &&scrollY < this.cache.scrollToY) {
+            this.cache.stepY = 0;
+            scrollY = this.cache.scrollToY;
+            this.cache.scrollToY = null;
         }
         //允许弹动时
-        if((scrollY < 0 && this.props.topBounce) || (scrollY >= this.state.maxY && this.props.bottomBounce)) {
+        if((scrollY < 0 && this.props.topBounce) || (scrollY >= this.cache.maxY && this.props.bottomBounce)) {
             //是否回弹
-            let isBounce = (this.state.stepY < 0 && this.state.scrollY < 0) || (this.state.stepY > 0 && this.state.scrollY> this.state.maxY);
+            let isBounce = (this.cache.stepY < 0 && this.cache.scrollY < 0) || (this.cache.stepY > 0 && this.cache.scrollY> this.cache.maxY);
             if(!isBounce && continuing) {
-                scrollY = this.state.scrollY - this.state.stepY*0.5
-                this.state.stepY = this.state.stepY*0.8
+                scrollY = this.cache.scrollY - this.cache.stepY*0.5
+                this.cache.stepY = this.cache.stepY*0.8
             }
         }
         //不许弹动时
         if(scrollY < 0 && !this.props.topBounce) {
             scrollY = 0
-            this.state.stepY = 0
+            this.cache.stepY = 0
         }
         //不许弹动时
-        if(scrollY > this.state.maxY && !this.props.bottomBounce) {
-            scrollY = this.state.maxY
-            this.state.stepY = 0
+        if(scrollY > this.cache.maxY && !this.props.bottomBounce) {
+            scrollY = this.cache.maxY
+            this.cache.stepY = 0
         }
         //当是指定滚动到某一点时
-        if((scrollX < 0 && this.props.leftBounce) || (scrollX >= this.state.maxX && this.props.rightBounce)) {
+        if((scrollX < 0 && this.props.leftBounce) || (scrollX >= this.cache.maxX && this.props.rightBounce)) {
             //是否回弹
-            let isBounce = (this.state.stepX < 0 && this.state.scrollX < 0) || (this.state.stepX > 0 && this.state.scrollX> this.state.maxX);
+            let isBounce = (this.cache.stepX < 0 && this.cache.scrollX < 0) || (this.cache.stepX > 0 && this.cache.scrollX> this.cache.maxX);
             if(!isBounce) {
                 
-                scrollX = this.state.scrollX - this.state.stepX*0.5
-                this.state.stepX = this.state.stepX*0.8
+                scrollX = this.cache.scrollX - this.cache.stepX*0.5
+                this.cache.stepX = this.cache.stepX*0.8
             }
         }
 
         //不许弹动时
         if(scrollX < 0 && !this.props.leftBounce) {
             scrollX = 0
-            this.state.stepX= 0
+            this.cache.stepX= 0
         }
         //不许弹动时
-        if(scrollX > this.state.maxX && !this.props.rightBounce) {
-            scrollX = this.state.maxX
-            this.state.stepX = 0
+        if(scrollX > this.cache.maxX && !this.props.rightBounce) {
+            scrollX = this.cache.maxX
+            this.cache.stepX = 0
         }
 
 
         if(this.props.pattern === 'vertical') {
-            this.state.stepX = 0;
-            this.state.scrollX = 0;
+            this.cache.stepX = 0;
+            this.cache.scrollX = 0;
         }
 
         if(this.props.pattern === 'horizontal') {
-            this.state.stepY = 0;
-            this.state.scrollY = 0;
+            this.cache.stepY = 0;
+            this.cache.scrollY = 0;
         }   
-        if(this.props.pattern === 'auto' && this.state.direction === 'vertcial') {
-            this.state.stepX = 0;
+        if(this.props.pattern === 'auto' && this.cache.direction === 'vertcial') {
+            this.cache.stepX = 0;
             
         }
 
-        this.state.scrollX = scrollX;
-        this.state.scrollY = scrollY;
-        this.hideBarY = false;
-        this.state.scrollRender(this.state.scrollX , this.state.scrollY, 1)
+        this.cache.scrollX = scrollX;
+        this.cache.scrollY = scrollY;
+        this.cache.hideBarY = false;
+        this.cache.scrollRender(this.cache.scrollX , this.cache.scrollY, 1)
         
         
-        if(this.state.scrollXRender) {
-            this.state.scrollXRender(this.state.scrollX,0,1)
+        if(this.cache.scrollXRender) {
+            this.cache.scrollXRender(this.cache.scrollX,0,1)
         }
-        if(this.state.scrollYRender) {
-            this.state.scrollYRender(0,this.state.scrollY,1)
+        if(this.cache.scrollYRender) {
+            this.cache.scrollYRender(0,this.cache.scrollY,1)
         }
 
         if(this.scrollBarYRender) {
-            let percent = parseInt(this.state.scrollY / this.state.maxY * 100)/100;
+            let percent = parseInt(this.cache.scrollY / this.cache.maxY * 100)/100;
             this.cacheScrollBarY = this.scrollBarOuter*percent;
             this.scrollBarYRender(0,-this.cacheScrollBarY,1)
         }
 
         if(this.scrollBarXRender) {
-            let percent = parseInt(this.state.scrollX / this.state.maxX * 100)/100;
+            let percent = parseInt(this.cache.scrollX / this.cache.maxX * 100)/100;
             this.cacheScrollBarX = this.scrollBarOuterWidth*percent;
             this.scrollBarXRender( -this.cacheScrollBarX,0,1)
         }
 
         if(this.props.onScroll) {
             this.props.onScroll({
-                x: this.state.scrollX,
-                y: this.state.scrollY
+                x: this.cache.scrollX,
+                y: this.cache.scrollY
             })
         }
+        this.emitScroll({
+            x: this.cache.scrollX,
+            y: this.cache.scrollY
+        })
        
-        this.state.stepX = this.state.stepX * this.props.percent
-        this.state.stepY = this.state.stepY * this.props.percent
+        this.cache.stepX = this.cache.stepX * this.props.percent
+        this.cache.stepY = this.cache.stepY * this.props.percent
         
         
-        if(Math.abs(this.state.stepX) <= this.state.stopStep) {
-            this.state.stepX = 0
+        if(Math.abs(this.cache.stepX) <= this.cache.stopStep) {
+            this.cache.stepX = 0
         }
-        if(Math.abs(this.state.stepY) <= this.state.stopStep) {
-            this.state.stepY = 0
+        if(Math.abs(this.cache.stepY) <= this.cache.stopStep) {
+            this.cache.stepY = 0
         }
         
-        if(this.state.stepX===0 && this.state.stepY === 0) {
-            if(this.state.scrollY < 0 && continuing) {
-                this.scrollTo(this.state.scrollToX, 0, 1.5)
+        if(this.cache.stepX===0 && this.cache.stepY === 0) {
+            if(this.cache.scrollY < 0 && continuing) {
+                this.scrollTo(this.cache.scrollToX, 0, 1.5)
                 return
             }
 
-            if(this.state.scrollY > this.state.maxY && continuing) {
-                this.scrollTo(this.state.scrollToX, this.state.maxY, 1.5)
+            if(this.cache.scrollY > this.cache.maxY && continuing) {
+                this.scrollTo(this.cache.scrollToX, this.cache.maxY, 1.5)
                 return
             } 
 
-            if(this.state.scrollX < 0 && continuing) {
-                this.scrollTo(0, this.state.scrollToY, 1.5)
+            if(this.cache.scrollX < 0 && continuing) {
+                this.scrollTo(0, this.cache.scrollToY, 1.5)
                 return
             }
 
-            if(this.state.scrollX > this.state.maxX && continuing) {
-                this.scrollTo(this.state.maxX, this.state.scrollToY, 1.5)
+            if(this.cache.scrollX > this.cache.maxX && continuing) {
+                this.scrollTo(this.cache.maxX, this.cache.scrollToY, 1.5)
                 return
             }
             if(this.props.onStopscroll) {
                 this.props.onStopscroll({
-                    x: this.state.scrollX,
-                    y: this.state.scrollY
+                    x: this.cache.scrollX,
+                    y: this.cache.scrollY
                 })
             }
             this.scrollBarTimeout = setTimeout(()=>{
-                this.state.hideBarY = true;
+                this.cache.hideBarY = true;
             },2000)
             return
         }
@@ -259,3 +263,5 @@ export default {
     }
 
 }
+
+export default animate;
