@@ -78,7 +78,7 @@
        
 
         for(let i = last; i >= 0; i--) {
-            if(touchList[last].time-touchList[i].time > this.speed) {
+            if(touchList[last].time-touchList[i].time > this.props.speed) {
                 first = i;
                 break
             }

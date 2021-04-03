@@ -43,8 +43,8 @@ export default class Scroller extends React.Component<ScrollerProps, ScrollerSta
          * child  子层为主控制，当子层滚动到底再滚动父层, 当父层滚动到顶部再滚动子层 仅适合一个子层
          */
         controlMode: 'none',
-        percent:  0.9,
-        speed: 60,
+        percent:  0.95,
+        speed: 100,
         //是否黒示滚动条
         showScrollBar: false,
 
@@ -59,7 +59,7 @@ export default class Scroller extends React.Component<ScrollerProps, ScrollerSta
         refreshText: '更新中',
         loadingText:  "加载中…",
         noDataText:  "没有更多数据",
-        maxSpeed: 120,
+        maxSpeed: 200,
         isMore: false,
         isProvide: false,
         isInject: false,
