@@ -32,6 +32,7 @@ class DemoScroller extends React.Component{
                     <Header title="Scroller"/>
                     <Main>
                         <ItvScroll onRefresh={this.onRefresh.bind(this)}  pullDown ref={this.scroller} topBounce bottomBounce isMore onInfinite={this.onInfinite.bind(this)}  >
+                            
                             <Test/>
                             {list}
                             <ScrollerElevator title="我是中国人">

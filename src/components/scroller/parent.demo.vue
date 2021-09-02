@@ -30,7 +30,7 @@
                     tier="child"
                     
                 >
-                    
+                <div class="item" ref="content">content</div>
                  <div class="item-list" v-for="(item, index) in list" :key="index">
                         {{item.name}}four{{index}}
                     </div>   
