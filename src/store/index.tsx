@@ -7,8 +7,6 @@ let initState = {
 }
 
 const store = createStore((state = initState, action)=> {
-    console.log(action);
-    
     return {
         uid:"10",
         token: "t34w4232423423fdskfkljsd",

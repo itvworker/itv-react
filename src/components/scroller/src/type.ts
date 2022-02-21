@@ -1,0 +1,29 @@
+export interface ScrollerProps {
+    isMore?: boolean,
+    topBounce?: boolean,
+    bottomBounce?: boolean,
+    leftBounce?: boolean,
+    rightBounce?: boolean,
+    pullDown?: boolean,
+    pullDis?: number,
+    percent?: number,
+    speed?: number,
+    showScrollBar?: boolean,
+    scrollYel?: boolean,
+    scrollXel?: boolean,
+    refreshLayerColor?: string
+    loadingLayerColor?: string,
+    pullText?: string,
+    loseenText?: string
+    refreshText?: string,
+    loadingText?: string,
+    noDataText?: string,
+    maxSpeed?: number,
+    divisor?: number
+    isProvide?: boolean,
+    isInject?: boolean,
+    testKey?: boolean,
+    minScrollHeihgt?: number,
+    pattern?: string,
+    children?: HTMLDivElement
+}

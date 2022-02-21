@@ -2,41 +2,18 @@
 import './index.less';
 import React from 'react';
 import ScrollerContext from '../libs/provider'
-class Test extends React.Component{
-    static contextType = ScrollerContext;
-    scroller = React.createRef()
-    refname = (value)=>{
-        console.log('------');
+function  DeomTest (props){
+    return (
+        <div className="test" >
+             <div  className="test-item" >
+            
+            </div>
+            <div   className="test-ite2" >
+            
+             </div>
+        </div>
         
-        return (<input type="text" />)
-        
-    }
-    constructor(props: any) {
-        super(props)
-    }
-    render(){ 
-       return (
-           <div className="test" >
-                <div ref={this.scroller} className="test-item" >
-               
-               </div>
-               <div ref={this.scroller}  className="test-ite2" >
-               
-                </div>
-           </div>
-           
-       )
-       
-       
-    }
- 
- 
-    componentDidMount() {
-        console.log(this.scroller);
-        
-        
-    }
-
+    )
 }
-export default Test
+export default DeomTest
 

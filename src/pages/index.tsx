@@ -5,7 +5,7 @@ import Container from '../layout/container'
 
 class IndexPage extends React.Component{
     cellFef = React.createRef();
-
+    private state
     constructor(props: any) {
         super(props);
         this.state = {
@@ -38,9 +38,6 @@ class IndexPage extends React.Component{
         }
     }
     render(){ 
-       
-       
-        
         return (<Container>
                     <div className="itv-bar">
                         <div className="itv-logo" >
